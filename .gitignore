@@ -3,7 +3,6 @@
 /test_results/*
 /checkpoints/*
 /.vscode/*
-*.csv
 !*_results.csv
 *.txt
 *.png
