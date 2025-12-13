@@ -1,6 +1,6 @@
 from data_provider.data_factory_solarv2 import data_provider
 from exp.exp_basic_solarv2 import Exp_Basic
-from models import Transformer, DLinear, PatchTST, Stat_models, iTransformer
+from models import Transformer, DLinear, PatchTST, Stat_models, iTransformer, tcn
 from utils.tools import EarlyStopping, adjust_learning_rate, visual, test_params_flop
 from utils.metrics import metric
 
@@ -29,7 +29,8 @@ class Exp_Main(Exp_Basic):
             'DLinear': DLinear,
             'PatchTST': PatchTST,
             'iTransformer': iTransformer,
-            'LSTM_baseline': Stat_models.LSTM_baseline
+            'LSTM_baseline': Stat_models.LSTM_baseline,
+            'tcn': tcn,
         }
         # model = model_dict[self.args.model].Model(self.args).float()
         model_class = model_dict[self.args.model]
