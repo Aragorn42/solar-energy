@@ -277,10 +277,14 @@ class Exp_Main(Exp_Basic):
 
         preds_inv = np.array(preds_inv)
         trues_inv = np.array(trues_inv)
-
+        print('test shape:', preds_inv.shape, trues_inv.shape)
+        # (batch_num, batch_len, pred_len, 1)
+        preds_inv = preds_inv[:, :, -1, :]
+        trues_inv = trues_inv[:, :, -1, :]
+        # 修改这里控制评估一个点/整条曲线
         preds_inv = preds_inv.reshape(-1, preds_inv.shape[-2], preds_inv.shape[-1])
         trues_inv = trues_inv.reshape(-1, trues_inv.shape[-2], trues_inv.shape[-1])
-
+        
 
         mae, mse, rmse, mape, mspe, rse, corr = metric(preds_inv, trues_inv)
 
