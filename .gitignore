@@ -12,5 +12,4 @@
 *.zip
 *.xlsx
 *.hdf5
-GBDT.*
 prophet.*

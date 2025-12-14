@@ -1,6 +1,6 @@
 from data_provider.data_factory_solarv2 import data_provider
 from exp.exp_basic_solarv2 import Exp_Basic
-from models import Transformer, DLinear, PatchTST, Stat_models, iTransformer, tcn
+from models import Transformer, DLinear, PatchTST, Stat_models, iTransformer, tcn, GBDT
 from utils.tools import EarlyStopping, adjust_learning_rate, visual, test_params_flop
 from utils.metrics import metric
 
@@ -24,6 +24,8 @@ class Exp_Main(Exp_Basic):
         super(Exp_Main, self).__init__(args)
 
     def _build_model(self):
+        if self.args.model == 'GBDT':
+            return None  # GBDT 模型在训练/测试时单独处理
         model_dict = {
             'Transformer': Transformer,
             'DLinear': DLinear,
@@ -103,6 +105,8 @@ class Exp_Main(Exp_Basic):
         vali_data, vali_loader = self._get_data(flag='val')
         test_data, test_loader = self._get_data(flag='test')
 
+        if self.args.model == 'GBDT':
+            return  # GBDT 模型在此处不进行训练
         path = os.path.join(self.args.checkpoints, setting)
         if not os.path.exists(path):
             os.makedirs(path)
@@ -224,7 +228,15 @@ class Exp_Main(Exp_Basic):
            则计算并保存起报时刻 t_origin.npy；否则跳过起报时刻保存，避免报错。
         """
         test_data, test_loader = self._get_data(flag='test')
-        
+        if self.args.model == 'GBDT':
+            print("Training GBDT model...")
+            train_data, train_loader = self._get_data(flag='train')
+            vali_data, vali_loader = self._get_data(flag='val')
+            gbdt_model = GBDT.Model(self.args)
+            gbdt_model.train(train_loader, vali_loader, setting)
+            print("Testing GBDT model...")
+            gbdt_model.test(test_loader, test_data, setting)
+            return
         if test:
             print('loading model')
             self.model.load_state_dict(
