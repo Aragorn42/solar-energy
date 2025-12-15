@@ -21,7 +21,7 @@ class Model:
         }
         if hasattr(args, 'use_gpu') and args.use_gpu:
             self.lgb_params.update({
-                'device': 'gpu',
+                'device': 'cpu',
                 'gpu_platform_id': getattr(args, 'gpu', 0),
                 'gpu_device_id': getattr(args, 'gpu_id', 0)
             })
@@ -91,7 +91,7 @@ class Model:
             model.fit(
                 X_train, y_train_ch,
                 eval_set=[(X_val, y_val_ch)],
-                callbacks=[lgb.early_stopping(20), lgb.log_evaluation(0)]
+                callbacks=[lgb.early_stopping(self.args.patience), lgb.log_evaluation(0)]
             )
             self.models[ch] = model
             

@@ -1,4 +1,4 @@
-export CUDA_VISIBLE_DEVICES=4
+export CUDA_VISIBLE_DEVICES=3
 
 if [ ! -d "./logs" ]; then
     mkdir ./logs
@@ -7,12 +7,12 @@ fi
 if [ ! -d "./logs/LongForecasting" ]; then
     mkdir ./logs/LongForecasting
 fi
-seq_len=336
-model_name=DLinear
+seq_len=96
+model_name=GBDT
 
-root_path_name=./dataset/GEFCom/
+root_path_name=./dataset/GEFCom
 data_path_name=task15.csv
-model_id_name=GEFCOM_TASK15
+model_id_name=GEFCOM
 data_name=custom_solar
 
 random_seed=2021
@@ -34,10 +34,10 @@ do
       --features M \
       --seq_len $seq_len \
       --pred_len $pred_len \
-      --enc_in 3 \
       --des 'Exp' \
-      --train_epochs 100 \
-      --patience 10 \
-      --target 'zone3' \
+      --train_epochs 1000 \
+      --patience 50 \
+      --target 'OT' \
+      --use_gpu False \
       --itr 1 --batch_size 32 --learning_rate 0.001 >logs/LongForecasting/${model_name}/${model_name}'_'$model_id_name'_'$seq_len'_'$pred_len.log 
 done
