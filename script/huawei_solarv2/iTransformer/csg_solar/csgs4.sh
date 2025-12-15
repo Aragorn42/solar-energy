@@ -12,7 +12,7 @@ model_name=iTransformer
 
 root_path_name=./dataset/csg_solar/
 data_path_name=Solar_station_site_4_Nominal_capacity-130MW.csv
-model_id_name=CSGS4_MS
+model_id_name=CSGS4_S
 data_name=custom_solar
 
 random_seed=2021
@@ -31,7 +31,7 @@ do
       --model_id ${model_id_name}_${seq_len}'_'${pred_len} \
       --model $model_name \
       --data $data_name \
-      --features MS \
+      --features S \
       --seq_len $seq_len \
       --pred_len $pred_len \
       --enc_in 6 \

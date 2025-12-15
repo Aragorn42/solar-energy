@@ -113,7 +113,7 @@ def time_features_from_frequency_str(freq_str: str) -> List[TimeFeature]:
         if isinstance(offset, offset_type):
             return [cls() for cls in feature_classes]
 
-    supported_freq_msg = f"""
+    supported_freq_Sg = f"""
     Unsupported frequency {freq_str}
     The following frequencies are supported:
         Y   - yearly
@@ -127,7 +127,7 @@ def time_features_from_frequency_str(freq_str: str) -> List[TimeFeature]:
             alias: min
         S   - secondly
     """
-    raise RuntimeError(supported_freq_msg)
+    raise RuntimeError(supported_freq_Sg)
 
 
 def time_features(dates, freq='h'):

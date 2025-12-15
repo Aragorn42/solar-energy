@@ -10,9 +10,9 @@ fi
 seq_len=96
 model_name=GBDT
 
-root_path_name=./dataset/GEFCom
-data_path_name=task15.csv
-model_id_name=GEFCOM
+root_path_name=./dataset/
+data_path_name=skippd.csv
+model_id_name=SKIPPD
 data_name=custom_solar
 
 random_seed=2021
@@ -21,7 +21,7 @@ if [ ! -d "./logs/LongForecasting/${model_name}" ]; then
     mkdir ./logs/LongForecasting/${model_name}
 fi
 
-for pred_len in 1 4 72
+for pred_len in 1 16 288
 do
     python -u run_longExp_solarv2.py \
       --random_seed $random_seed \
@@ -31,7 +31,7 @@ do
       --model_id ${model_id_name}_${seq_len}'_'${pred_len} \
       --model $model_name \
       --data $data_name \
-      --features M \
+      --features S \
       --seq_len $seq_len \
       --pred_len $pred_len \
       --des 'Exp' \
@@ -39,5 +39,5 @@ do
       --patience 50 \
       --target 'OT' \
       --use_gpu False \
-      --itr 1 --batch_size 32 --learning_rate 0.001 >logs/LongForecasting/${model_name}/${model_name}'_'$model_id_name'_'$seq_len'_'$pred_len.log 
+      --itr 1 --batch_size 32 --learning_rate 0.01 >logs/LongForecasting/${model_name}/${model_name}'_'$model_id_name'_'$seq_len'_'$pred_len.log 
 done

@@ -21,14 +21,14 @@ if [ ! -d "./logs/LongForecasting/${model_name}" ]; then
 fi
 for i in {1..8}
 do
-    for pred_len in 1 4 72
+    for pred_len in 1 16 288
     do
         python -u run_longExp_solarv2.py \
         --random_seed $random_seed \
         --is_training 1 \
         --root_path $root_path_name \
-        --data_path Solar_station_site_1_Nominal_capacity-${cap[i-1]}MW.csv \
-        --model_id ${model_id_name}_${seq_len}'_'${pred_len} \
+        --data_path Solar_station_site_$i_Nominal_capacity-${cap[i-1]}MW.csv \
+        --model_id ${model_id_name}'S'${i}$_${seq_len}'_'${pred_len} \
         --model $model_name \
         --data $data_name \
         --features S \
