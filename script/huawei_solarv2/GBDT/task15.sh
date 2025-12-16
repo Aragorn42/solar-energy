@@ -7,7 +7,7 @@ fi
 if [ ! -d "./logs/LongForecasting" ]; then
     mkdir ./logs/LongForecasting
 fi
-seq_len=336
+seq_len=96
 model_name=GBDT
 
 root_path_name=./dataset/GEFCom/
@@ -36,8 +36,9 @@ do
       --pred_len $pred_len \
       --enc_in 3 \
       --des 'Exp' \
-      --train_epochs 1 \
-      --patience 10 \
+      --train_epochs 1000 \
+      --patience 50 \
       --target 'zone3' \
-      --itr 1 --batch_size 32 --learning_rate 0.001 >logs/LongForecasting/${model_name}/${model_name}'_'$model_id_name'_'$seq_len'_'$pred_len.log 
+      --use_gpu False \
+      --itr 1 --batch_size 32 --learning_rate 0.01 >logs/LongForecasting/${model_name}/${model_name}'_'$model_id_name'_'$seq_len'_'$pred_len.log 
 done

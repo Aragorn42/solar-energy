@@ -1,4 +1,4 @@
-export CUDA_VISIBLE_DEVICES=2
+export CUDA_VISIBLE_DEVICES=3
 
 if [ ! -d "./logs" ]; then
     mkdir ./logs
@@ -7,12 +7,12 @@ fi
 if [ ! -d "./logs/LongForecasting" ]; then
     mkdir ./logs/LongForecasting
 fi
-seq_len=336
-model_name=iTransformer
+seq_len=96
+model_name=GBDT
 
-root_path_name=./dataset/csg_solar/
-data_path_name=Solar_station_site_2_Nominal_capacity-130MW.csv
-model_id_name=CSGS2_S
+root_path_name=./dataset/
+data_path_name=skippd.csv
+model_id_name=SKIPPD
 data_name=custom_solar
 
 random_seed=2021
@@ -34,15 +34,10 @@ do
       --features S \
       --seq_len $seq_len \
       --pred_len $pred_len \
-      --enc_in 6 \
-      --dec_in 6 \
-      --c_out 6 \
-      --e_layers 3 \
-      --d_model 512 \
-      --d_ff 512 \
       --des 'Exp' \
-      --train_epochs 100\
-      --patience 10\
-      --target 'Power (MW)' \
-      --itr 1 --batch_size 32 --learning_rate 0.0005 >logs/LongForecasting/${model_name}/${model_name}'_'$model_id_name'_'$seq_len'_'$pred_len.log 
+      --train_epochs 1000 \
+      --patience 50 \
+      --target 'OT' \
+      --use_gpu False \
+      --itr 1 --batch_size 32 --learning_rate 0.01 >logs/LongForecasting/${model_name}/${model_name}'_'$model_id_name'_'$seq_len'_'$pred_len.log 
 done
