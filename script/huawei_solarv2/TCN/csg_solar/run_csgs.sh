@@ -4,7 +4,7 @@
 set -e  # 任一脚本报错则停止整个流程
 
 for x in 1 2 3 4 5 6 7 8; do
-    script="./script/huawei_solarv2/tcn/csg_solar/csgs${x}.sh"
+    script="./script/huawei_solarv2/TCN/csg_solar/csgs${x}.sh"
     if [ -x "$script" ]; then
         echo ">>> Running: $script"
         "$script"
