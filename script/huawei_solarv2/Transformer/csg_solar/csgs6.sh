@@ -40,8 +40,8 @@ do
       --e_layers 3 \
       --d_layers 2 \
       --d_model 512 \
-      --d_ff 1024 \
-      --n_heads 4 \
+      --d_ff 2048 \
+      --n_heads 8 \
       --des 'Exp' \
       --train_epochs 100\
       --patience 10\
