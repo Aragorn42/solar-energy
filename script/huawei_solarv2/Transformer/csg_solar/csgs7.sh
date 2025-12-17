@@ -34,9 +34,9 @@ do
       --features S \
       --seq_len $seq_len \
       --pred_len $pred_len \
-      --enc_in 6 \
-      --dec_in 6 \
-      --c_out 6 \
+      --enc_in 1 \
+      --dec_in 1 \
+      --c_out 1 \
       --e_layers 3 \
       --d_layers 2 \
       --d_model 512 \
