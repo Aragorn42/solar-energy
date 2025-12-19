@@ -1,6 +1,9 @@
-import argparse
 import os
+os.environ["OMP_NUM_THREADS"] = "1"
+os.environ["MKL_NUM_THREADS"] = "1"
+# 占用CPU核数, 使用更大的数可能可以加快速度
 import torch
+import argparse
 from exp.exp_main_solarv2 import Exp_Main
 import random
 import numpy as np
