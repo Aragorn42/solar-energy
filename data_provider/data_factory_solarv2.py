@@ -44,6 +44,7 @@ def data_provider(args, flag):
         data_set,
         batch_size=batch_size,
         shuffle=shuffle_flag,
-        num_workers=args.num_workers,
+        #数据加载在“主进程、单线程”中完成，不创建任何子进程
+        num_workers=0,
         drop_last=drop_last)
     return data_set, data_loader
