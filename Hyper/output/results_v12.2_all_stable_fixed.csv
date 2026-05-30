@@ -1,0 +1,13 @@
+﻿数据集,站点,容量,MAE,RMSE,达标
+StateGrid,Site 1,50MW,98.3,96.2,
+StateGrid,Site 2,130MW,98.5,96.8,
+StateGrid,Site 3,30MW,97.0,93.7,
+StateGrid,Site 4,130MW,98.2,95.9,
+StateGrid,Site 5,110MW,97.9,95.4,
+StateGrid,Site 6,35MW,98.0,95.8,
+StateGrid,Site 7,30MW,97.2,93.9,
+StateGrid,Site 8,30MW,98.7,97.6,
+SKIPPD,SKIPPD,30kW,99.8,99.7,
+GEFCom2014,Zone 1,1.0,94.2,91.4,
+GEFCom2014,Zone 2,1.0,94.7,91.1,
+GEFCom2014,Zone 3,1.0,94.8,92.0,
