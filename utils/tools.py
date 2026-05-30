@@ -40,7 +40,7 @@ def adjust_learning_rate(optimizer, scheduler, epoch, args, printout=True):
         lr = lr_adjust[epoch]
         for param_group in optimizer.param_groups:
             param_group['lr'] = lr
-        if printout: print('Updating learning rate to {}'.format(lr))
+        # if printout: print('Updating learning rate to {}'.format(lr))
 
 
 class EarlyStopping:
@@ -70,7 +70,7 @@ class EarlyStopping:
 
     def save_checkpoint(self, val_loss, model, path):
         if self.verbose:
-            print(f'Validation loss decreased ({self.val_loss_min:.6f} --> {val_loss:.6f}).  Saving model ...')
+            # print(f'Validation loss decreased ({self.val_loss_min:.6f} --> {val_loss:.6f}).  Saving model ...')
             torch.save(model.state_dict(), path + '/' + 'checkpoint.pth')
         self.val_loss_min = val_loss
 
