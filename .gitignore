@@ -13,3 +13,7 @@
 *.xlsx
 *.hdf5
 prophet.*
+/Hyper/outout/*
+build_final_excel.ipynb
+eval_all_experiments.ipynb
+eval_summary_all_experiments.csv
