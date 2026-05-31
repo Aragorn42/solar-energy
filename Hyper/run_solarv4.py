@@ -42,13 +42,13 @@ STATION_COORDS = {
     "gefcom_3": (34.5,   140.5),
 }
 
-RUN_GUOWANG = True
+RUN_GUOWANG = False
 RUN_SKIPPD = True
-RUN_GEFCOM = True
+RUN_GEFCOM = False
 
 ENSEMBLE_SEEDS = [42, 123]
 USE_AMP = True
-USE_CACHE = True
+USE_CACHE = False
 print(f"[优化] 集成种子数: {len(ENSEMBLE_SEEDS)}")
 print(f"[优化] 混合精度训练: {'启用' if USE_AMP else '禁用'}")
 print(f"[优化] 模型缓存: {'启用' if USE_CACHE else '禁用'}")
@@ -218,10 +218,7 @@ def load_guowang(site_num):
     return df.resample("15min").mean().ffill().bfill()
 
 def load_skippd():
-    all_csv = glob.glob(os.path.join(SKIPPD_DIR,"**","*.csv"), recursive=True)
-    if not all_csv: return None
-    f15 = [f for f in all_csv if "15" in os.path.basename(f).lower()]
-    target = f15[0] if f15 else all_csv[0]
+    target = os.path.join(SKIPPD_DIR,"skippd.csv")
     print(f"  [SKIPPD] 使用: {os.path.basename(target)}")
     df = pd.read_csv(target, index_col=0, parse_dates=True).sort_index()
     df.index = strip_tz(df.index)
@@ -618,7 +615,8 @@ def train_single_seed(df, task_cfg, model_key, seed, model_type='dlinear'):
                         vl += loss_fn(model(x.to(DEVICE)), y.to(DEVICE)).item()
                 else:
                     vl += loss_fn(model(x.to(DEVICE)), y.to(DEVICE)).item()
-        vl /= len(te_ld)
+        # vl /= len(te_ld) 错误，应该是验证集的长度
+        vl /= len(val_ld)
         sch.step(vl)
 
         if vl < best:
