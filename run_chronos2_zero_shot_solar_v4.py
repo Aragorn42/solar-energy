@@ -21,9 +21,6 @@ from typing import List, Optional, Dict
 import numpy as np
 import pandas as pd
 
-from chronos import BaseChronosPipeline, Chronos2Pipeline
-
-
 def parse_args():
     p = argparse.ArgumentParser()
 
@@ -167,6 +164,10 @@ def build_windows(
 
 
 def main():
+    # Keep window construction importable in environments that do not install
+    # Chronos; the forecasting dependency is needed only for actual inference.
+    from chronos import BaseChronosPipeline, Chronos2Pipeline
+
     args = parse_args()
     os.makedirs(args.results_root, exist_ok=True)
 
