@@ -1,0 +1,16 @@
+{
+  "mae_acc": 93.8,
+  "rmse_acc": 87.6,
+  "sample_count": 5260,
+  "predictions_finite": true,
+  "targets_finite": true,
+  "timestamps_finite": true,
+  "target_timestamp_start": "2013-10-22 21:00:00+00:00",
+  "target_timestamp_end": "2014-05-30 00:00:00+00:00",
+  "checkpoint_selected_by": "validation_loss",
+  "model_type": "nlinear",
+  "target_name": "power_kt",
+  "checkpoint_paths": [
+    "results/verified/run_solarv4_full/preflight_acceptance_20260802/checkpoints/gef1_short_term_nlinear_seed2026_3901d0d5d417.pt"
+  ]
+}

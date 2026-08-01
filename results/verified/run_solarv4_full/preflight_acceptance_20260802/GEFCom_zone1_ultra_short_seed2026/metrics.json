@@ -1,0 +1,16 @@
+{
+  "mae_acc": 91.2,
+  "rmse_acc": 86.2,
+  "sample_count": 5328,
+  "predictions_finite": true,
+  "targets_finite": true,
+  "timestamps_finite": true,
+  "target_timestamp_start": "2013-10-22 01:00:00+00:00",
+  "target_timestamp_end": "2014-06-01 00:00:00+00:00",
+  "checkpoint_selected_by": "validation_loss",
+  "model_type": "dlinear",
+  "target_name": "power_kt",
+  "checkpoint_paths": [
+    "results/verified/run_solarv4_full/preflight_acceptance_20260802/checkpoints/gef1_ultra_short_dlinear_seed2026_fd85a48a0c71.pt"
+  ]
+}

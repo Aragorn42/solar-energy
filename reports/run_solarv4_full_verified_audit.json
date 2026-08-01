@@ -1,0 +1,74 @@
+{
+  "runner": "run_solarv4_full_verified.py",
+  "runner_sha256": "c8c1a9b4b241e7686138e9c667f13a9842324a7b61eb1a4e9ca23faa79217429",
+  "all_passed": true,
+  "checks": {
+    "no_backward_fill": {
+      "passed": true,
+      "evidence": "source scan: no .bfill( token"
+    },
+    "no_bidirectional_interpolation": {
+      "passed": true,
+      "evidence": "source scan: no bidirectional interpolation argument"
+    },
+    "test_not_used_for_training_or_checkpoint": {
+      "passed": true,
+      "evidence": "train_single_seed checkpoint condition is validation loss; test loader has no training loop"
+    },
+    "train_only_scaler": {
+      "passed": true,
+      "evidence": "synthetic train mean=1.0, scale=1.0, boundaries=(0, 6, 7, 10)"
+    },
+    "validation_denominator": {
+      "passed": true,
+      "evidence": "source scan: vl /= len(val_ld)"
+    },
+    "target_selection": {
+      "passed": true,
+      "evidence": "runtime target selection for 1/4/16/72/288"
+    },
+    "eval_timestamp_alignment": {
+      "passed": true,
+      "evidence": "runtime timestamps start at seq_len+eval_idx=13: ['2020-01-01 13:00:00', '2020-01-01 14:00:00', '2020-01-01 15:00:00', '2020-01-01 16:00:00']"
+    },
+    "power_kt_round_trip": {
+      "passed": true,
+      "evidence": "maximum absolute round-trip error=0.0"
+    },
+    "capacity_clipping": {
+      "passed": true,
+      "evidence": "pred=[0.0, 5.0, 10.0], true=[0.0, 6.0, 10.0]"
+    },
+    "coordinates_and_time_semantics": {
+      "passed": true,
+      "evidence": "configured coordinate keys=['gefcom_1', 'gefcom_2', 'gefcom_3', 'site1', 'site2', 'site3', 'site4', 'site5', 'site6', 'site7', 'site8', 'skippd']; source timezone declarations scanned"
+    },
+    "old_cache_rejected": {
+      "passed": true,
+      "evidence": "legacy fingerprint metadata rejected at runtime"
+    },
+    "cache_fingerprint_changes": {
+      "passed": true,
+      "evidence": "seed2026=f1555f902771ae72, seed2027=bfaf9f37da2380f3; fingerprint inputs include data/config/code SHA"
+    },
+    "output_directory_collision": {
+      "passed": true,
+      "evidence": "second reservation of identical output directory raised FileExistsError"
+    },
+    "aligned_lengths": {
+      "passed": true,
+      "evidence": "runtime prediction/target/timestamp length assertion"
+    },
+    "default_cache_disabled": {
+      "passed": true,
+      "evidence": "source scan: default SOLAR_USE_CACHE=0"
+    }
+  },
+  "cache_fingerprint_inputs": {
+    "data_sha256": "75e5beb7c132346c7ba7fb32cb61dd8eb7b7ca43cfbe72e6f0a70fe4bc979686",
+    "config": {
+      "seed": 2026
+    },
+    "code_sha256": "c8c1a9b4b241e7686138e9c667f13a9842324a7b61eb1a4e9ca23faa79217429"
+  }
+}

@@ -1,4 +1,4 @@
-import os, glob, random, warnings, math, time
+import os, glob, random, warnings, math, time, json
 import numpy as np
 import pandas as pd
 import torch
@@ -9,6 +9,19 @@ import matplotlib
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 import pvlib
+from pathlib import Path
+from utils.run_solarv4_verified_support import (
+    assert_aligned,
+    cache_fingerprint,
+    cache_is_compatible,
+    capacity_clip,
+    chronological_split,
+    kt_to_power,
+    power_to_kt,
+    reserve_output_directory,
+    select_target,
+    target_timestamps,
+)
 
 warnings.filterwarnings("ignore")
 matplotlib.rcParams["font.sans-serif"] = ["SimHei", "Microsoft YaHei", "DejaVu Sans"]
@@ -20,14 +33,16 @@ ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 GUOWANG_DIR = os.path.join(ROOT_DIR, "dataset", "csg_solar")
 SKIPPD_DIR = os.path.join(ROOT_DIR, "dataset")
 GEFCOM_DIR = os.path.join(ROOT_DIR, "dataset", "GEFCom")
-RUN_TAG = os.environ.get("SOLAR_RUN_TAG", "all")
+RUN_TAG = os.environ.get("SOLAR_RUN_TAG")
+if not RUN_TAG:
+    raise RuntimeError("SOLAR_RUN_TAG is required to prevent output-directory overwrite")
 OUTPUT_DIR = os.path.join(ROOT_DIR, "results", "verified", "run_solarv4_full", RUN_TAG)
 ERA5_DIR = os.path.join(ROOT_DIR, "dataset", "ERA5")
 MODEL_DIR = os.path.join(OUTPUT_DIR, "checkpoints")
 FEATURE_DIR = os.path.join(OUTPUT_DIR, "engineered_features")
 SAVE_ENGINEERED_FEATURES = False
 
-os.makedirs(OUTPUT_DIR, exist_ok=True)
+reserve_output_directory(OUTPUT_DIR)
 os.makedirs(MODEL_DIR,  exist_ok=True)
 if SAVE_ENGINEERED_FEATURES:
     os.makedirs(FEATURE_DIR, exist_ok=True)
@@ -71,9 +86,9 @@ RUN_GUOWANG = os.environ.get("SOLAR_RUN_STATEGRID", "1") == "1"
 RUN_SKIPPD = os.environ.get("SOLAR_RUN_SKIPPD", "1") == "1"
 RUN_GEFCOM = os.environ.get("SOLAR_RUN_GEFCOM", "1") == "1"
 
-ENSEMBLE_SEEDS = [42, 123]
+ENSEMBLE_SEEDS = [int(value) for value in os.environ.get("SOLAR_SEEDS", "42,123").split(",")]
 USE_AMP = True
-USE_CACHE = False
+USE_CACHE = os.environ.get("SOLAR_USE_CACHE", "0") == "1"
 print(f"[优化] 集成种子数: {len(ENSEMBLE_SEEDS)}")
 print(f"[优化] 混合精度训练: {'启用' if USE_AMP else '禁用'}")
 print(f"[优化] 模型缓存: {'启用' if USE_CACHE else '禁用'}")
@@ -116,7 +131,7 @@ TASKS_15 = {
     "short_term":  {"pred_len": 288, "eval_idx": 95, "label": "短期"},
 }
 TASKS_1H = {
-    # "nowcasting":  {"pred_len": 1,   "eval_idx": 0,  "label": "短临"},
+    "nowcasting":  {"pred_len": 1,   "eval_idx": 0,  "label": "短临"},
     "ultra_short": {"pred_len": 4,  "eval_idx": 3,  "label": "超短期"},
     "short_term":  {"pred_len": 72, "eval_idx": 23, "label": "短期"},
 }
@@ -252,10 +267,7 @@ def add_solar_features(df, lat, lon, local_tz):
 
     df.loc[df["is_day"] == 0, "kt"] = 0.0
     df["kt_diff"] = df["kt"].diff().fillna(0)
-    df["power_kt"] = (
-        df["power"] / df["cs_ghi"].clip(lower=10)
-    ).clip(0, 10)
-    df.loc[df["is_day"] == 0, "power_kt"] = 0.0
+    df["power_kt"] = power_to_kt(df["power"].to_numpy(), df["cs_ghi"].to_numpy())
     return df
 
 
@@ -571,15 +583,12 @@ class PVDataset(Dataset):
         )
 
 def make_loaders(df, seq_len, pred_len):
-    n = len(df)
-    train_idx = int(n * TRAIN_RATIO)
-    val_idx = int(n * (TRAIN_RATIO + VAL_RATIO))
-    tr = df.values[:train_idx].astype(np.float32)
-    val = df.values[train_idx:val_idx].astype(np.float32)
-    te = df.values[val_idx:].astype(np.float32)
-    mean = tr.mean(0).astype(np.float32)
-    std = tr.std(0).astype(np.float32)
-    std[std < 1e-6] = 1.0
+    train, validation, test, mean, std, _ = chronological_split(
+        df, TRAIN_RATIO, VAL_RATIO
+    )
+    tr = train.values.astype(np.float32)
+    val = validation.values.astype(np.float32)
+    te = test.values.astype(np.float32)
     power_kt_idx = list(df.columns).index("power_kt")
     power_idx = list(df.columns).index("power")
     cs_ghi_idx = list(df.columns).index("cs_ghi")
@@ -817,8 +826,19 @@ def train_single_seed(df, task_cfg, model_key, seed, model_type='dlinear'):
     if len(df) < seq_len + pred_len + 200:
         return None
 
-    ckpt = os.path.join(MODEL_DIR, f"{model_key}_{model_type}_seed{seed}.pt")
-    if USE_CACHE and os.path.exists(ckpt):
+    source_data = task_cfg["source_data_path"]
+    fingerprint, fingerprint_inputs = cache_fingerprint(
+        source_data,
+        {
+            "model_type": model_type, "pred_len": pred_len, "seq_len": seq_len,
+            "seed": seed, "epochs": EPOCHS, "lr": LR, "weight_decay": WEIGHT_DECAY,
+            "columns": list(df.columns),
+        },
+        __file__,
+    )
+    ckpt = os.path.join(MODEL_DIR, f"{model_key}_{model_type}_seed{seed}_{fingerprint[:12]}.pt")
+    cache_metadata = ckpt + ".cache.json"
+    if USE_CACHE and os.path.exists(ckpt) and cache_is_compatible(cache_metadata, fingerprint):
         print(f"        [{model_type}_seed{seed}] 使用缓存: {ckpt}")
         return ckpt
 
@@ -837,7 +857,7 @@ def train_single_seed(df, task_cfg, model_key, seed, model_type='dlinear'):
     sch = optim.lr_scheduler.ReduceLROnPlateau(opt, mode="min", factor=0.5, patience=5, min_lr=1e-6)
     loss_fn = nn.HuberLoss(delta=1.0)
 
-    best, pat = float("inf"), 0
+    best, pat, best_epoch = float("inf"), 0, None
     scaler = torch.cuda.amp.GradScaler() if USE_AMP and DEVICE.type == 'cuda' else None
 
     for ep in range(EPOCHS):
@@ -873,12 +893,11 @@ def train_single_seed(df, task_cfg, model_key, seed, model_type='dlinear'):
                         vl += loss_fn(model(x.to(DEVICE)), y.to(DEVICE)).item()
                 else:
                     vl += loss_fn(model(x.to(DEVICE)), y.to(DEVICE)).item()
-        # vl /= len(te_ld) 错误，应该是验证集的长度
         vl /= len(val_ld)
         sch.step(vl)
 
         if vl < best:
-            best, pat = vl, 0
+            best, pat, best_epoch = vl, 0, ep + 1
             torch.save(model.state_dict(), ckpt)
         else:
             pat += 1
@@ -892,6 +911,14 @@ def train_single_seed(df, task_cfg, model_key, seed, model_type='dlinear'):
             print(f"        [{model_type}_seed{seed}] 早停 @ ep{ep + 1}")
             break
 
+    with open(cache_metadata, "w", encoding="utf-8") as handle:
+        json.dump({
+            "cache_fingerprint": fingerprint,
+            "fingerprint_inputs": fingerprint_inputs,
+            "checkpoint_selected_by": "validation_loss",
+            "best_validation_loss": best,
+            "best_epoch": best_epoch,
+        }, handle, indent=2)
     return ckpt
 
 def compute_metrics(
@@ -932,21 +959,13 @@ def compute_metrics(
         # 必须与 power_kt 构造时的分母完全一致
         denominator = np.maximum(cs_ghi, 10.0)
 
-        pred_power = pred_target * denominator
-
-        # 晴空辐照度为0时，属于夜间，功率强制设为0
-        pred_power = np.where(
-            cs_ghi > 0,
-            pred_power,
-            0.0
-        )
+        pred_power = kt_to_power(pred_target, cs_ghi)
     else:
         # 模型直接预测功率
         pred_power = pred_target
 
     # 3. 物理约束：功率在 [0, 装机容量] 范围内
-    pred_power = np.clip(pred_power, 0.0, cap)
-    true_power = np.clip(true_power, 0.0, cap)
+    pred_power, true_power = capacity_clip(pred_power, true_power, cap)
 
     # 4. 对齐目标时间
     max_ts_samples = len(test_ts) - seq_len - eval_idx
@@ -968,10 +987,8 @@ def compute_metrics(
     pred_power = pred_power[:n]
     true_power = true_power[:n]
 
-    target_ts = test_ts[
-        seq_len + eval_idx:
-        seq_len + eval_idx + n
-    ]
+    target_ts = target_timestamps(test_ts, seq_len, eval_idx, n)
+    assert_aligned(pred_power, true_power, target_ts)
 
     # 5. 计算误差
     ae = np.abs(pred_power - true_power)
@@ -1003,7 +1020,13 @@ def compute_metrics(
 
     return {
         "mae_acc": round(mae_acc, 1),
-        "rmse_acc": round(rmse_acc, 1)
+        "rmse_acc": round(rmse_acc, 1),
+        "sample_count": int(n),
+        "predictions_finite": bool(np.isfinite(pred_power).all()),
+        "targets_finite": bool(np.isfinite(true_power).all()),
+        "timestamps_finite": bool(pd.DatetimeIndex(target_ts).notna().all()),
+        "target_timestamp_start": str(target_ts[0]),
+        "target_timestamp_end": str(target_ts[-1]),
     }
 
 def ensemble_predict_and_eval(
@@ -1157,7 +1180,7 @@ def train_and_eval_hybrid(df, task_cfg, cap, model_key):
 
     model_type = get_best_model_type(pred_len, tname)
 
-    target_name = 'power' if pred_len == 1 else 'power_kt'
+    target_name = select_target(pred_len)
 
     print(f"    [混合选择] {model_type.upper()}（pred_len={pred_len}，预测{target_name}）")
 
@@ -1175,8 +1198,61 @@ def train_and_eval_hybrid(df, task_cfg, cap, model_key):
 
     print(f"    [Ensemble] 开始集成预测...")
     result = ensemble_predict_and_eval(df, task_cfg, cap, model_key, model_paths, model_type)
+    if result is not None:
+        result["checkpoint_paths"] = model_paths
+        result["checkpoint_selected_by"] = "validation_loss"
+        result["model_type"] = model_type
+        result["target_name"] = target_name
 
     return result
+
+
+def save_task_artifacts(dataset_name, site_name, df, task_cfg, result):
+    """Write isolated preflight/full-run records for one task."""
+    task_name = task_cfg["tname"]
+    run_name = f"{dataset_name}_{site_name}_{task_name}_seed{'-'.join(map(str, ENSEMBLE_SEEDS))}"
+    run_dir = reserve_output_directory(os.path.join(OUTPUT_DIR, run_name))
+    train, validation, test, mean, std, boundaries = chronological_split(
+        df, TRAIN_RATIO, VAL_RATIO
+    )
+    resolved = {
+        "dataset": dataset_name,
+        "site": site_name,
+        "task": task_name,
+        "model_type": result["model_type"],
+        "target": result["target_name"],
+        "seq_len": min(SEQ_LEN, len(df) // 6),
+        "pred_len": task_cfg["pred_len"],
+        "eval_idx": task_cfg["eval_idx"],
+        "seeds": ENSEMBLE_SEEDS,
+        "max_epochs": EPOCHS,
+        "use_cache": USE_CACHE,
+        "checkpoint_selected_by": result["checkpoint_selected_by"],
+        "source_data_path": task_cfg["source_data_path"],
+    }
+    manifest = {
+        "row_count": len(df),
+        "column_count": len(df.columns),
+        "columns": list(df.columns),
+        "split_boundaries": {"train": [0, boundaries[1]], "validation": [boundaries[1], boundaries[2]], "test": [boundaries[2], boundaries[3]]},
+        "split_timestamp_ranges": {
+            "train": [str(train.index[0]), str(train.index[-1])],
+            "validation": [str(validation.index[0]), str(validation.index[-1])],
+            "test": [str(test.index[0]), str(test.index[-1])],
+        },
+        "scaler_fit_rows": [0, boundaries[1]],
+        "scaler_mean": mean.tolist(),
+        "scaler_scale": std.tolist(),
+        "sample_count": result["sample_count"],
+        "target_timestamp_start": result["target_timestamp_start"],
+        "target_timestamp_end": result["target_timestamp_end"],
+    }
+    metrics = {key: value for key, value in result.items() if key != "checkpoint_paths"}
+    metrics["checkpoint_paths"] = [str(Path(path).relative_to(ROOT_DIR)) for path in result["checkpoint_paths"]]
+    for filename, payload in (("resolved_config.json", resolved), ("data_manifest.json", manifest), ("metrics.json", metrics)):
+        with open(run_dir / filename, "w", encoding="utf-8") as handle:
+            json.dump(payload, handle, indent=2, ensure_ascii=False)
+    return str(run_dir)
 
 records = []
 total_start = time.time()
@@ -1219,13 +1295,15 @@ if RUN_GUOWANG:
         row = {"模型": "Hybrid_v12.1", "数据集": "StateGrid", "电站": sn}
         for tname, tcfg in TASKS_15.items():
             lbl = tcfg["label"]
-            tcfg_ = dict(tcfg, tname=tname)
+            source_files = glob.glob(os.path.join(GUOWANG_DIR, f"*site_{sn}_*.csv"))
+            tcfg_ = dict(tcfg, tname=tname, source_data_path=source_files[0])
             print(f"\n  [{lbl}] pred_len={tcfg['pred_len']}  eval_idx={tcfg['eval_idx']}")
             res = train_and_eval_hybrid(df, tcfg_, cap, f"sg{sn}_{tname}")
             if res:
                 print(f"    → [Result] MAE={res['mae_acc']}%  RMSE={res['rmse_acc']}%")
                 row[f"{lbl}_MAE"] = res["mae_acc"]
                 row[f"{lbl}_RMSE"] = res["rmse_acc"]
+                save_task_artifacts("StateGrid", f"site{sn}", df, tcfg_, res)
         records.append(row)
 
 if RUN_SKIPPD:
@@ -1252,13 +1330,14 @@ if RUN_SKIPPD:
         row = {"模型": "Hybrid_v12.1", "数据集": "SKIPPD", "电站": 1}
         for tname, tcfg in TASKS_15.items():
             lbl = tcfg["label"]
-            tcfg_ = dict(tcfg, tname=tname)
+            tcfg_ = dict(tcfg, tname=tname, source_data_path=os.path.join(SKIPPD_DIR, "skippd.csv"))
             print(f"\n  [{lbl}] pred_len={tcfg['pred_len']}  eval_idx={tcfg['eval_idx']}")
             res = train_and_eval_hybrid(df_sk, tcfg_, cap_sk, f"skippd_{tname}")
             if res:
                 print(f"    → [Result] MAE={res['mae_acc']}%  RMSE={res['rmse_acc']}%")
                 row[f"{lbl}_MAE"] = res["mae_acc"]
                 row[f"{lbl}_RMSE"] = res["rmse_acc"]
+                save_task_artifacts("SKIPPD", "site1", df_sk, tcfg_, res)
         records.append(row)
 
 if RUN_GEFCOM:
@@ -1293,13 +1372,15 @@ if RUN_GEFCOM:
                "短临_MAE": "N/A", "短临_RMSE": "N/A"}
         for tname, tcfg in TASKS_1H.items():
             lbl = tcfg["label"]
-            tcfg_ = dict(tcfg, tname=tname)
+            gefcom_sources = sorted(glob.glob(os.path.join(GEFCOM_DIR, "Task*", "train*.csv")))
+            tcfg_ = dict(tcfg, tname=tname, source_data_path=gefcom_sources[0])
             print(f"\n  [{lbl}] pred_len={tcfg['pred_len']}  eval_idx={tcfg['eval_idx']}")
             res = train_and_eval_hybrid(df_gef, tcfg_, cap_g, f"gef{zid}_{tname}")
             if res:
                 print(f"    → [Result] MAE={res['mae_acc']}%  RMSE={res['rmse_acc']}%")
                 row[f"{lbl}_MAE"] = res["mae_acc"]
                 row[f"{lbl}_RMSE"] = res["rmse_acc"]
+                save_task_artifacts("GEFCom", f"zone{zid}", df_gef, tcfg_, res)
         records.append(row)
 
 total_time = time.time() - total_start

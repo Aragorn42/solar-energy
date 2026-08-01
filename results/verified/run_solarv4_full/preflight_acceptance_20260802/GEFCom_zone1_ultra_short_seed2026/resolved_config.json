@@ -1,0 +1,17 @@
+{
+  "dataset": "GEFCom",
+  "site": "zone1",
+  "task": "ultra_short",
+  "model_type": "dlinear",
+  "target": "power_kt",
+  "seq_len": 336,
+  "pred_len": 4,
+  "eval_idx": 3,
+  "seeds": [
+    2026
+  ],
+  "max_epochs": 1,
+  "use_cache": false,
+  "checkpoint_selected_by": "validation_loss",
+  "source_data_path": "/home/zhaopp/workspace/solar-energy/dataset/GEFCom/Task 15/train15.csv"
+}

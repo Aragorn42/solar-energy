@@ -1,0 +1,16 @@
+{
+  "mae_acc": 83.9,
+  "rmse_acc": 82.5,
+  "sample_count": 5331,
+  "predictions_finite": true,
+  "targets_finite": true,
+  "timestamps_finite": true,
+  "target_timestamp_start": "2013-10-21 22:00:00+00:00",
+  "target_timestamp_end": "2014-06-01 00:00:00+00:00",
+  "checkpoint_selected_by": "validation_loss",
+  "model_type": "patchtst",
+  "target_name": "power",
+  "checkpoint_paths": [
+    "results/verified/run_solarv4_full/preflight_acceptance_20260802/checkpoints/gef1_nowcasting_patchtst_seed2026_1bb4fa532a53.pt"
+  ]
+}
