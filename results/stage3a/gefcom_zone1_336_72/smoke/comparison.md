@@ -1,0 +1,81 @@
+# Stage 3A GEFCom zone1 336→72
+
+Scope: `smoke`; windows: 32. No model training or future covariates.
+
+| Group | MAE | RMSE |
+| :--- | ---: | ---: |
+| baseline | 0.071431078 | 0.162603363 |
+| aligned | 0.072295398 | 0.165007323 |
+| shuffled | 0.072324656 | 0.165039271 |
+
+```json
+{
+  "metrics": {
+    "baseline": {
+      "mae": 0.07143107801675797,
+      "rmse": 0.16260336339473724,
+      "finite": true,
+      "shape": [
+        32,
+        72,
+        1
+      ]
+    },
+    "aligned": {
+      "mae": 0.07229539752006531,
+      "rmse": 0.1650073230266571,
+      "finite": true,
+      "shape": [
+        32,
+        72,
+        1
+      ]
+    },
+    "shuffled": {
+      "mae": 0.07232465595006943,
+      "rmse": 0.1650392711162567,
+      "finite": true,
+      "shape": [
+        32,
+        72,
+        1
+      ]
+    }
+  },
+  "aligned_vs_baseline": {
+    "mae": {
+      "absolute": 0.0008643195033073425,
+      "relative_pct": 1.210004842856453
+    },
+    "rmse": {
+      "absolute": 0.002403959631919861,
+      "relative_pct": 1.4784193769005805
+    }
+  },
+  "shuffled_vs_baseline": {
+    "mae": {
+      "absolute": 0.0008935779333114624,
+      "relative_pct": 1.2509652074714959
+    },
+    "rmse": {
+      "absolute": 0.00243590772151947,
+      "relative_pct": 1.498067242069305
+    }
+  },
+  "aligned_vs_shuffled": {
+    "mae": {
+      "absolute": -2.9258430004119873e-05,
+      "relative_pct": -0.04045429545398589
+    },
+    "rmse": {
+      "absolute": -3.1948089599609375e-05,
+      "relative_pct": -0.019357871240902748
+    }
+  },
+  "aligned_window_mae_win_rate_vs_baseline": 0.21875,
+  "shuffled_window_mae_win_rate_vs_baseline": 0.21875,
+  "aligned_window_mae_win_rate_vs_shuffled": 0.53125,
+  "baseline_aligned_max_abs_prediction_difference": 0.05733183026313782,
+  "baseline_shuffled_max_abs_prediction_difference": 0.056594252586364746
+}
+```

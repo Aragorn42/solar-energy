@@ -1,0 +1,8 @@
+{
+  "checkpoint": "/home/zhaopp/workspace/FusionSF/outputs/pipeline_v1_fixed/20260731_223710_fusionsf_fixedv1_clean30_power_sites10_seed42/checkpoints/epoch_epoch=002.ckpt",
+  "checkpoint_sha256": "8fe851d9b66b8301bb8615ecf99db4625459b245342b3365e14aacf712e4f5d8",
+  "fusionsf_git_commit": "b3601a62e81424fccd2d2037d5a18df6ecf92d16",
+  "solar_energy_git_commit": "ce29eefc6dc832f4eb923bc86faeafb35d380bff",
+  "hydra_config": "/home/zhaopp/workspace/FusionSF/outputs/pipeline_v1_fixed/20260731_223710_fusionsf_fixedv1_clean30_power_sites10_seed42/.hydra/config.yaml",
+  "parameter_digest_before_after_inference": "f8dc9cd237339079e5081e66df2ab0838fabbf7c56a1d2bb664301646d330771"
+}

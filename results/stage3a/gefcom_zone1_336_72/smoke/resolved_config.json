@@ -1,0 +1,20 @@
+{
+  "dataset": "GEFCom zone1",
+  "seq_len": 336,
+  "pred_len": 72,
+  "test_ratio": 0.3,
+  "strict_test_only": 1,
+  "freq": "1h",
+  "cross_learning": 0,
+  "power_only": true,
+  "run_scope": "smoke",
+  "max_windows": 32,
+  "window_count": 32,
+  "quantile": 0.5,
+  "model_batch_size": 32,
+  "window_batch_size": 32,
+  "chronos_context_length": 336,
+  "shuffle_seed": 42,
+  "chronos_model_dir": "/home/zhaopp/.cache/huggingface/hub/models--amazon--chronos-2/snapshots/29ec3766d36d6f73f0696f85560a422f50e8498c",
+  "checkpoint": "/home/zhaopp/workspace/FusionSF/outputs/pipeline_v1_fixed/20260731_223710_fusionsf_fixedv1_clean30_power_sites10_seed42/checkpoints/epoch_epoch=002.ckpt"
+}
