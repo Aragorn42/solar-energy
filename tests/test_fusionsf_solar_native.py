@@ -6,6 +6,7 @@ import pytest
 import torch
 
 from models import FusionSFSolar
+from scripts.audit_fusionsf_solar_fairness import compare
 
 
 def configs(pred_len=72):
@@ -55,3 +56,38 @@ def test_metrics_file_order_matches_native_metric():
     values = metric(pred, true)
     saved = np.array(values[:5], dtype=np.float64)
     assert saved.shape == (5,)
+
+
+def protocol_manifest():
+    return {
+        "dataset_class": "Dataset_Custom_Solar", "data_file_sha256": "abc",
+        "features": "S", "target": "zone1", "freq": "h", "seq_len": 336,
+        "label_len": 48, "pred_len": 72,
+        "train_scaler_fit_rows": {"start_inclusive": 0, "end_exclusive": 10},
+        "inverse": False, "batch_size": 64, "seed": 2021,
+        "split_boundaries": {"train": [0, 10], "val": [8, 12], "test": [10, 20]},
+        "scaler_mean": [1.0], "scaler_scale": [2.0], "test_window_count": 2,
+        "test_origin_timestamps": ["2020-01-01", "2020-01-02"],
+        "test_target_timestamps": [["2020-01-02", "2020-01-03"], ["2020-01-03", "2020-01-04"]],
+        "metric_function": "utils.metrics.metric", "metric_source_sha256": "def",
+    }
+
+
+def test_fairness_audit_compares_values_not_shapes_or_constants():
+    left = protocol_manifest()
+    assert compare(left, dict(left))["fair_benchmark"]
+    changed = dict(left)
+    changed["test_target_timestamps"] = [["WRONG", "2020-01-03"], ["2020-01-03", "2020-01-04"]]
+    report = compare(left, changed)
+    assert not report["checks"]["same_full_target_timestamps"]
+    assert not report["fair_benchmark"]
+
+
+def test_fairness_audit_detects_metric_and_boundary_mismatch():
+    left = protocol_manifest()
+    changed = dict(left)
+    changed["metric_source_sha256"] = "different"
+    changed["split_boundaries"] = {"train": [0, 9]}
+    report = compare(left, changed)
+    assert not report["checks"]["same_raw_metric_function"]
+    assert not report["checks"]["same_train_val_test_boundaries"]

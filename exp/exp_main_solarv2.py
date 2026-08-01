@@ -3,6 +3,7 @@ from exp.exp_basic_solarv2 import Exp_Basic
 from models import Transformer, DLinear, PatchTST, Stat_models, iTransformer, tcn, GBDT, NLinear, FusionSFSolar
 from utils.tools import EarlyStopping, adjust_learning_rate, visual, test_params_flop
 from utils.metrics import metric
+from utils.fair_benchmark import build_protocol_manifest, resolved_config, write_json
 
 import numpy as np
 import torch
@@ -12,6 +13,8 @@ from torch.optim import lr_scheduler
 
 import os
 import time
+import json
+import shutil
 
 import warnings
 import matplotlib.pyplot as plt
@@ -115,7 +118,17 @@ class Exp_Main(Exp_Basic):
         if not os.path.exists(path):
             os.makedirs(path)
 
+        config_payload = resolved_config(self.args)
+        protocol_payload = build_protocol_manifest(
+            self.args, {"train": train_data, "val": vali_data, "test": test_data}
+        )
+        protocol_payload["run_setting"] = setting
+        write_json(os.path.join(path, "resolved_config.json"), config_payload)
+        write_json(os.path.join(path, "protocol_manifest.json"), protocol_payload)
+
         time_now = time.time()
+        if self.device.type == "cuda":
+            torch.cuda.reset_peak_memory_stats(self.device)
 
         train_steps = len(train_loader)
         early_stopping = EarlyStopping(patience=self.args.patience, verbose=True)
@@ -132,6 +145,11 @@ class Exp_Main(Exp_Basic):
                                             epochs=self.args.train_epochs,
                                             max_lr=self.args.learning_rate)
 
+        best_epoch = None
+        best_val_loss = float("inf")
+        stopped_epoch = 0
+        stop_reason = "max_epochs"
+        finite_training = True
         for epoch in range(self.args.train_epochs):
             iter_count = 0
             train_loss = []
@@ -195,22 +213,43 @@ class Exp_Main(Exp_Basic):
                     adjust_learning_rate(model_optim, scheduler, epoch + 1, self.args, printout=False)
                     scheduler.step()
 
-            train_loss = np.average(train_loss)
-            vali_loss = self.vali(vali_data, vali_loader, criterion)
-            test_loss = self.vali(test_data, test_loader, criterion)
+            train_loss = float(np.average(train_loss))
+            vali_loss = float(self.vali(vali_data, vali_loader, criterion))
+            test_loss = float(self.vali(test_data, test_loader, criterion))
+            stopped_epoch = epoch + 1
+            finite_training = finite_training and bool(np.isfinite([train_loss, vali_loss, test_loss]).all())
+            if not finite_training:
+                raise FloatingPointError(f"NaN/Inf loss detected at epoch {epoch + 1}")
 
             print("Epoch: {0}   lr: {4:.7f} Train Loss: {1:.7f} Val Loss: {2:.7f} Test Loss: {3:.7f}".format(
                 epoch + 1, train_loss, vali_loss, test_loss, scheduler.get_last_lr()[0]))
+            improved = vali_loss <= best_val_loss
             early_stopping(vali_loss, self.model, path)
+            if improved:
+                best_val_loss = vali_loss
+                best_epoch = epoch + 1
             if early_stopping.early_stop:
                 print("Early stopping")
+                stop_reason = "early_stopping"
                 break
 
             if self.args.lradj != 'TST':
                 adjust_learning_rate(model_optim, scheduler, epoch + 1, self.args)
 
         best_model_path = path + '/' + 'checkpoint.pth'
-        self.model.load_state_dict(torch.load(best_model_path))
+        self.model.load_state_dict(torch.load(best_model_path, map_location="cpu"))
+
+        training_summary = {
+            "best_epoch": best_epoch,
+            "stopped_epoch": stopped_epoch,
+            "stop_reason": stop_reason,
+            "best_val_loss": best_val_loss,
+            "trainable_parameter_count": int(sum(p.numel() for p in self.model.parameters() if p.requires_grad)),
+            "training_time_seconds": float(time.time() - time_now),
+            "peak_GPU_memory_bytes": int(torch.cuda.max_memory_allocated(self.device)) if self.device.type == "cuda" else 0,
+            "nan_inf_check": {"training_losses_finite": finite_training},
+        }
+        write_json(os.path.join(path, "training_summary.json"), training_summary)
 
         return self.model
 
@@ -235,7 +274,7 @@ class Exp_Main(Exp_Basic):
         if test:
             print('loading model')
             self.model.load_state_dict(
-                torch.load(os.path.join('./checkpoints/' + setting, 'checkpoint.pth'))
+                torch.load(os.path.join('./checkpoints/' + setting, 'checkpoint.pth'), map_location="cpu")
             )
 
         preds = []
@@ -357,6 +396,33 @@ class Exp_Main(Exp_Basic):
         np.save(os.path.join(folder_path, 'y_pred.npy'), preds_denorm.astype(np.float32))
         np.save(os.path.join(folder_path, 'y_true.npy'), trues_denorm.astype(np.float32))
 
+        checkpoint_path = os.path.join(self.args.checkpoints, setting)
+        for record_name in ("resolved_config.json", "protocol_manifest.json"):
+            shutil.copy2(os.path.join(checkpoint_path, record_name), os.path.join(folder_path, record_name))
+        summary_path = os.path.join(checkpoint_path, "training_summary.json")
+        training_summary = json.loads(open(summary_path, encoding="utf-8").read())
+        training_summary["raw_metrics"] = {
+            "mae": float(mae), "mse": float(mse), "rmse": float(rmse),
+            "mape": float(mape), "mspe": float(mspe),
+        }
+        training_summary["inverse_space_metrics"] = {
+            "mae": float(np.mean(np.abs(preds_denorm - trues_denorm))),
+            "rmse": float(np.sqrt(np.mean((preds_denorm - trues_denorm) ** 2))),
+        }
+        training_summary["nan_inf_check"].update({
+            "predictions_raw_finite": bool(np.isfinite(preds).all()),
+            "targets_raw_finite": bool(np.isfinite(trues).all()),
+            "predictions_inverse_finite": bool(np.isfinite(preds_denorm).all()),
+            "targets_inverse_finite": bool(np.isfinite(trues_denorm).all()),
+        })
+        training_summary["prediction_statistics"] = {
+            "mean": float(np.mean(preds)), "std": float(np.std(preds)),
+            "min": float(np.min(preds)), "max": float(np.max(preds)),
+        }
+        training_summary["evaluated_test_window_count"] = int(preds.shape[0])
+        write_json(summary_path, training_summary)
+        write_json(os.path.join(folder_path, "training_summary.json"), training_summary)
+
         # ================== 关键改动 2：起报时刻（带保底机制） ==================
         all_timestamps = getattr(test_data, 'all_timestamps', None)
         border1 = getattr(test_data, 'border1', None)
@@ -387,7 +453,7 @@ class Exp_Main(Exp_Basic):
         if load:
             path = os.path.join(self.args.checkpoints, setting)
             best_model_path = path + '/' + 'checkpoint.pth'
-            self.model.load_state_dict(torch.load(best_model_path))
+            self.model.load_state_dict(torch.load(best_model_path, map_location="cpu"))
 
         preds = []
 

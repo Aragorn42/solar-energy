@@ -402,6 +402,8 @@ class Dataset_Custom_Solar(Dataset):
         self.border2 = None         # 当前子集在原始序列中的结束 index（切片右开边界）
 
         self.global_max_per_channel = None  # 仅用于诊断，不再当作 Cap
+        self.scaler_fit_start = None
+        self.scaler_fit_end = None
 
         self.__read_data__()
 
@@ -472,6 +474,8 @@ class Dataset_Custom_Solar(Dataset):
         # 只用“纯 train 区间（前 num_train）”做 scaler 拟合（不包含 val、test）
         if self.scale:
             train_data = df_data[0:num_train]  # 前 num_train 行
+            self.scaler_fit_start = 0
+            self.scaler_fit_end = num_train
             self.scaler.fit(train_data.values)
             data = self.scaler.transform(df_data.values)
         else:
