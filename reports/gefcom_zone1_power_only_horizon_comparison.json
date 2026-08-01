@@ -1,0 +1,248 @@
+{
+  "experiment": "gefcom_zone1_power_only_horizon_comparison",
+  "short_horizon_seed": 2021,
+  "rows": [
+    {
+      "horizon": 1,
+      "scope": "seed2021",
+      "model": "Transformer",
+      "params": 17874945,
+      "best_epoch": 14,
+      "raw_mae": 0.11415822058916092,
+      "raw_rmse": 0.23967626690864563,
+      "physical_mae": 0.029177754757610967,
+      "physical_rmse": 0.061258975108597125,
+      "source": "results/solar/GEFCOM_ZONE1_336_1_SEED2021_Transformer_custom_solar_ftS_sl336_ll48_pl1_dm512_nh8_el3_dl2_df2048_fc1_ebtimeF_dtTrue_formal_power_only_pair_0/training_summary.json"
+    },
+    {
+      "horizon": 1,
+      "scope": "seed2021",
+      "model": "FusionSFSolar",
+      "params": 25392641,
+      "best_epoch": 8,
+      "raw_mae": 0.14132803678512573,
+      "raw_rmse": 0.2448197901248932,
+      "physical_mae": 0.0361221041581734,
+      "physical_rmse": 0.06257361141949286,
+      "source": "results/solar/GEFCOM_ZONE1_336_1_SEED2021_FusionSFSolar_custom_solar_ftS_sl336_ll48_pl1_dm512_nh8_el3_dl2_df2048_fc1_ebtimeF_dtTrue_formal_power_only_pair_0/training_summary.json"
+    },
+    {
+      "horizon": 4,
+      "scope": "seed2021",
+      "model": "Transformer",
+      "params": 17874945,
+      "best_epoch": 6,
+      "raw_mae": 0.18371430039405823,
+      "raw_rmse": 0.3606362044811249,
+      "physical_mae": 0.04695562955861112,
+      "physical_rmse": 0.09217518867508571,
+      "source": "results/solar/GEFCOM_ZONE1_336_4_SEED2021_Transformer_custom_solar_ftS_sl336_ll48_pl4_dm512_nh8_el3_dl2_df2048_fc1_ebtimeF_dtTrue_formal_power_only_pair_0/training_summary.json"
+    },
+    {
+      "horizon": 4,
+      "scope": "seed2021",
+      "model": "FusionSFSolar",
+      "params": 25394177,
+      "best_epoch": 13,
+      "raw_mae": 0.19694775342941284,
+      "raw_rmse": 0.3552373945713043,
+      "physical_mae": 0.050337971306768446,
+      "physical_rmse": 0.09079529782153711,
+      "source": "results/solar/GEFCOM_ZONE1_336_4_SEED2021_FusionSFSolar_custom_solar_ftS_sl336_ll48_pl4_dm512_nh8_el3_dl2_df2048_fc1_ebtimeF_dtTrue_formal_power_only_pair_0/training_summary.json"
+    },
+    {
+      "horizon": 72,
+      "scope": "seed2021",
+      "model": "Transformer",
+      "params": 17874945,
+      "best_epoch": 3,
+      "raw_mae": 0.2502458691596985,
+      "raw_rmse": 0.4535771608352661,
+      "physical_mae": 0.06396046399985618,
+      "physical_rmse": 0.11593001225922524,
+      "source": "results/solar/GEFCOM_ZONE1_336_72_FAIR_Transformer_custom_solar_ftS_sl336_ll48_pl72_dm512_nh8_el3_dl2_df2048_fc1_ebtimeF_dtTrue_formal_power_only_pair_0/training_summary.json"
+    },
+    {
+      "horizon": 72,
+      "scope": "seed2021",
+      "model": "FusionSFSolar",
+      "params": 25428993,
+      "best_epoch": 5,
+      "raw_mae": 0.24997186660766602,
+      "raw_rmse": 0.4491539001464844,
+      "physical_mae": 0.06389043472268491,
+      "physical_rmse": 0.114799470730323,
+      "source": "results/solar/GEFCOM_ZONE1_336_72_FAIR_FusionSFSolar_custom_solar_ftS_sl336_ll48_pl72_dm512_nh8_el3_dl2_df2048_fc1_ebtimeF_dtTrue_formal_power_only_pair_0/training_summary.json"
+    },
+    {
+      "horizon": 72,
+      "scope": "three_seed_mean",
+      "model": "Transformer",
+      "params": 17874945,
+      "best_epoch": 3.6666666666666665,
+      "raw_mae": 0.25568439563115436,
+      "raw_rmse": 0.45860592524210614,
+      "physical_mae": 0.06535050180359013,
+      "physical_rmse": 0.11721531878404667,
+      "source": "reports/gefcom_zone1_pred72_power_only_three_seed.json"
+    },
+    {
+      "horizon": 72,
+      "scope": "three_seed_mean",
+      "model": "FusionSFSolar",
+      "params": 25428993,
+      "best_epoch": 5.0,
+      "raw_mae": 0.24443496763706207,
+      "raw_rmse": 0.44994579752286273,
+      "physical_mae": 0.06247525493735947,
+      "physical_rmse": 0.11500187198629541,
+      "source": "reports/gefcom_zone1_pred72_power_only_three_seed.json"
+    }
+  ],
+  "fusionsf_minus_transformer": {
+    "pred_len_1_seed2021": {
+      "raw_mae": {
+        "absolute_change": 0.027169816195964813,
+        "relative_change_pct": 23.80013988983333
+      },
+      "raw_rmse": {
+        "absolute_change": 0.005143523216247559,
+        "relative_change_pct": 2.1460294265214213
+      },
+      "physical_mae": {
+        "absolute_change": 0.006944349400562433,
+        "relative_change_pct": 23.800150005548357
+      },
+      "physical_rmse": {
+        "absolute_change": 0.0013146363108957337,
+        "relative_change_pct": 2.146030534407744
+      }
+    },
+    "pred_len_4_seed2021": {
+      "raw_mae": {
+        "absolute_change": 0.013233453035354614,
+        "relative_change_pct": 7.203278681610251
+      },
+      "raw_rmse": {
+        "absolute_change": -0.005398809909820557,
+        "relative_change_pct": -1.4970238269860456
+      },
+      "physical_mae": {
+        "absolute_change": 0.003382341748157325,
+        "relative_change_pct": 7.203272067591824
+      },
+      "physical_rmse": {
+        "absolute_change": -0.0013798908535486015,
+        "relative_change_pct": -1.49703067971216
+      }
+    },
+    "pred_len_72_seed2021": {
+      "raw_mae": {
+        "absolute_change": -0.0002740025520324707,
+        "relative_change_pct": -0.10949333667426554
+      },
+      "raw_rmse": {
+        "absolute_change": -0.004423260688781738,
+        "relative_change_pct": -0.9751947564194517
+      },
+      "physical_mae": {
+        "absolute_change": -7.002927717127128e-05,
+        "relative_change_pct": -0.10948838202835542
+      },
+      "physical_rmse": {
+        "absolute_change": -0.0011305415289022402,
+        "relative_change_pct": -0.9751931418538053
+      }
+    },
+    "pred_len_72_three_seed_mean": {
+      "raw_mae": {
+        "absolute_change": -0.011249427994092287,
+        "relative_change_pct": -4.399731929796962
+      },
+      "raw_rmse": {
+        "absolute_change": -0.008660127719243405,
+        "relative_change_pct": -1.888359317353253
+      },
+      "physical_mae": {
+        "absolute_change": -0.0028752468662306616,
+        "relative_change_pct": -4.3997318870973166
+      },
+      "physical_rmse": {
+        "absolute_change": -0.0022134467977512617,
+        "relative_change_pct": -1.8883596621267884
+      }
+    }
+  },
+  "fairness_audits": {
+    "1": {
+      "path": "reports/gefcom_zone1_pred1_power_only_seed2021_fairness.json",
+      "fair_benchmark": true,
+      "checks": {
+        "same_dataset_class": true,
+        "same_data_file_sha256": true,
+        "same_features": true,
+        "same_target": true,
+        "same_freq": true,
+        "same_seq_len": true,
+        "same_label_len": true,
+        "same_pred_len": true,
+        "same_train_scaler_fit_rows": true,
+        "same_inverse": true,
+        "same_batch_size": true,
+        "same_seed": true,
+        "same_data_loader_drop_last": true,
+        "same_dataset_test_window_count": true,
+        "same_evaluated_test_window_count": true,
+        "same_dropped_test_window_count": true,
+        "same_train_val_test_boundaries": true,
+        "same_scaler_mean": true,
+        "same_scaler_scale": true,
+        "same_test_window_count": true,
+        "same_origin_timestamps": true,
+        "same_full_target_timestamps": true,
+        "same_raw_metric_function": true
+      }
+    },
+    "4": {
+      "path": "reports/gefcom_zone1_pred4_power_only_seed2021_fairness.json",
+      "fair_benchmark": true,
+      "checks": {
+        "same_dataset_class": true,
+        "same_data_file_sha256": true,
+        "same_features": true,
+        "same_target": true,
+        "same_freq": true,
+        "same_seq_len": true,
+        "same_label_len": true,
+        "same_pred_len": true,
+        "same_train_scaler_fit_rows": true,
+        "same_inverse": true,
+        "same_batch_size": true,
+        "same_seed": true,
+        "same_data_loader_drop_last": true,
+        "same_dataset_test_window_count": true,
+        "same_evaluated_test_window_count": true,
+        "same_dropped_test_window_count": true,
+        "same_train_val_test_boundaries": true,
+        "same_scaler_mean": true,
+        "same_scaler_scale": true,
+        "same_test_window_count": true,
+        "same_origin_timestamps": true,
+        "same_full_target_timestamps": true,
+        "same_raw_metric_function": true
+      }
+    }
+  },
+  "decision": {
+    "short_horizons_both_improve": false,
+    "recommend_additional_seeds": [
+      1,
+      4
+    ],
+    "reason": "pred_len=1 worsens MAE and RMSE; pred_len=4 worsens MAE while improving RMSE"
+  },
+  "constraints": {
+    "future_weather_used": false,
+    "embedding_fusion_started": false
+  }
+}
