@@ -120,7 +120,9 @@ class Exp_Main(Exp_Basic):
 
         config_payload = resolved_config(self.args)
         protocol_payload = build_protocol_manifest(
-            self.args, {"train": train_data, "val": vali_data, "test": test_data}
+            self.args,
+            {"train": train_data, "val": vali_data, "test": test_data},
+            {"train": train_loader, "val": vali_loader, "test": test_loader},
         )
         protocol_payload["run_setting"] = setting
         write_json(os.path.join(path, "resolved_config.json"), config_payload)
@@ -420,6 +422,9 @@ class Exp_Main(Exp_Basic):
             "min": float(np.min(preds)), "max": float(np.max(preds)),
         }
         training_summary["evaluated_test_window_count"] = int(preds.shape[0])
+        training_summary["data_loader_drop_last"] = bool(test_loader.drop_last)
+        training_summary["dataset_test_window_count"] = int(len(test_data))
+        training_summary["dropped_test_window_count"] = int(len(test_data) - preds.shape[0])
         write_json(summary_path, training_summary)
         write_json(os.path.join(folder_path, "training_summary.json"), training_summary)
 

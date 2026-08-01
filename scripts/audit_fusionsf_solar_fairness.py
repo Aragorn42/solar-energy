@@ -12,6 +12,8 @@ def compare(left, right):
         "dataset_class", "data_file_sha256", "features", "target", "freq",
         "seq_len", "label_len", "pred_len", "train_scaler_fit_rows",
         "inverse", "batch_size", "seed",
+        "data_loader_drop_last", "dataset_test_window_count",
+        "evaluated_test_window_count", "dropped_test_window_count",
     ]
     checks = {f"same_{field}": left.get(field) == right.get(field) for field in exact_fields}
     checks.update({

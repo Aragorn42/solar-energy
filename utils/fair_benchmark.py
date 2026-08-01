@@ -32,7 +32,7 @@ def resolved_config(args):
     return {key: json_value(value) for key, value in sorted(vars(args).items())}
 
 
-def build_protocol_manifest(args, datasets):
+def build_protocol_manifest(args, datasets, loaders=None):
     data_file = Path(args.root_path) / args.data_path
     test = datasets["test"]
     timestamps = np.asarray(test.all_timestamps, dtype="datetime64[ns]")
@@ -41,6 +41,11 @@ def build_protocol_manifest(args, datasets):
     target_indices = starts[:, None] + args.seq_len + np.arange(args.pred_len)[None, :]
     targets = timestamps[target_indices]
     metric_path = Path(inspect.getsourcefile(metric)).resolve()
+    test_drop_last = bool(loaders["test"].drop_last) if loaders is not None else None
+    evaluated_windows = (
+        len(loaders["test"]) * int(args.batch_size) if test_drop_last
+        else len(test)
+    )
     return {
         "dataset_class": f"{type(test).__module__}.{type(test).__name__}",
         "data_file": str(data_file.resolve()),
@@ -62,6 +67,10 @@ def build_protocol_manifest(args, datasets):
             "end_exclusive": int(datasets["train"].scaler_fit_end),
         },
         "test_window_count": int(len(test)),
+        "data_loader_drop_last": test_drop_last,
+        "dataset_test_window_count": int(len(test)),
+        "evaluated_test_window_count": int(evaluated_windows),
+        "dropped_test_window_count": int(len(test) - evaluated_windows),
         "test_origin_timestamps": origins.astype(str).tolist(),
         "test_target_timestamps": targets.astype(str).tolist(),
         "metric_function": f"{metric.__module__}.{metric.__name__}",

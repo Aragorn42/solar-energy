@@ -1,0 +1,330 @@
+{
+  "experiment": "gefcom_zone1_336_72_power_only_three_seed",
+  "seeds": [
+    2021,
+    2022,
+    2023
+  ],
+  "std_definition": "sample standard deviation (ddof=1)",
+  "per_seed": [
+    {
+      "seed": 2021,
+      "transformer_raw_mae": 0.2502458691596985,
+      "fusionsf_raw_mae": 0.24997186660766602,
+      "fusionsf_relative_raw_mae_pct": -0.10949333667426553,
+      "transformer_raw_mse": 0.20573224127292633,
+      "fusionsf_raw_mse": 0.20173923671245575,
+      "fusionsf_relative_raw_mse_pct": -1.9408744763410337,
+      "transformer_raw_rmse": 0.4535771608352661,
+      "fusionsf_raw_rmse": 0.4491539001464844,
+      "fusionsf_relative_raw_rmse_pct": -0.9751947564194517,
+      "transformer_physical_mae": 0.06396046399985618,
+      "fusionsf_physical_mae": 0.06389043472268491,
+      "fusionsf_relative_physical_mae_pct": -0.10948838202835542,
+      "transformer_physical_rmse": 0.11593001225922524,
+      "fusionsf_physical_rmse": 0.114799470730323,
+      "fusionsf_relative_physical_rmse_pct": -0.9751931418538053
+    },
+    {
+      "seed": 2022,
+      "transformer_raw_mae": 0.25784173607826233,
+      "fusionsf_raw_mae": 0.2475733458995819,
+      "fusionsf_relative_raw_mae_pct": -3.9824391252018523,
+      "transformer_raw_mse": 0.2101203054189682,
+      "fusionsf_raw_mse": 0.20556260645389557,
+      "fusionsf_relative_raw_mse_pct": -2.169090205720401,
+      "transformer_raw_rmse": 0.4583888053894043,
+      "fusionsf_raw_rmse": 0.45339012145996094,
+      "fusionsf_relative_raw_rmse_pct": -1.0904899663064296,
+      "transformer_physical_mae": 0.06590189886302586,
+      "fusionsf_physical_mae": 0.06327739334750256,
+      "fusionsf_relative_physical_mae_pct": -3.98244293533669,
+      "transformer_physical_rmse": 0.11715982948053312,
+      "fusionsf_physical_rmse": 0.11588220746456375,
+      "fusionsf_relative_physical_rmse_pct": -1.0904949432191313
+    },
+    {
+      "seed": 2023,
+      "transformer_raw_mae": 0.2589655816555023,
+      "fusionsf_raw_mae": 0.2357596904039383,
+      "fusionsf_relative_raw_mae_pct": -8.960994392851187,
+      "transformer_raw_mse": 0.21515850722789764,
+      "fusionsf_raw_mse": 0.20007136464118958,
+      "fusionsf_relative_raw_mse_pct": -7.012105996221495,
+      "transformer_raw_rmse": 0.46385180950164795,
+      "fusionsf_raw_rmse": 0.44729337096214294,
+      "fusionsf_relative_raw_rmse_pct": -3.569769094421561,
+      "transformer_physical_mae": 0.06618914254788835,
+      "fusionsf_physical_mae": 0.06025793674189094,
+      "fusionsf_relative_physical_mae_pct": -8.960995078167294,
+      "transformer_physical_rmse": 0.11855611461238169,
+      "fusionsf_physical_rmse": 0.11432393776399948,
+      "fusionsf_relative_physical_rmse_pct": -3.5697668249497596
+    }
+  ],
+  "model_summary": {
+    "Transformer": {
+      "raw_mae": {
+        "mean": 0.25568439563115436,
+        "std": 0.004743304212878964
+      },
+      "raw_rmse": {
+        "mean": 0.45860592524210614,
+        "std": 0.005140764250305927
+      },
+      "physical_mae": {
+        "mean": 0.06535050180359013,
+        "std": 0.0012123452707378684
+      },
+      "physical_rmse": {
+        "mean": 0.11721531878404667,
+        "std": 0.0013139302452629595
+      },
+      "best_epoch": {
+        "mean": 3.6666666666666665,
+        "std": 0.5773502691896258
+      },
+      "training_time_seconds": {
+        "mean": 349.09112938245136,
+        "std": 21.44447494039721
+      },
+      "trainable_parameter_count": 17874945
+    },
+    "FusionSFSolar": {
+      "raw_mae": {
+        "mean": 0.24443496763706207,
+        "std": 0.0076081240592174824
+      },
+      "raw_rmse": {
+        "mean": 0.44994579752286273,
+        "std": 0.0031245668098469595
+      },
+      "physical_mae": {
+        "mean": 0.06247525493735947,
+        "std": 0.001944564197163009
+      },
+      "physical_rmse": {
+        "mean": 0.11500187198629541,
+        "std": 0.0007986086752838183
+      },
+      "best_epoch": {
+        "mean": 5.0,
+        "std": 0.0
+      },
+      "training_time_seconds": {
+        "mean": 488.9765940507253,
+        "std": 15.254188150960294
+      },
+      "trainable_parameter_count": 25428993
+    }
+  },
+  "moving_block_bootstrap": {
+    "2021": {
+      "origin_count": 5568,
+      "block_length": 168,
+      "resamples": 10000,
+      "bootstrap_seed": 42,
+      "mean_mae_difference_fusion_minus_transformer": -7.002925121923909e-05,
+      "mae_95_ci": [
+        -0.0015587132156160179,
+        0.0015873124636140987
+      ],
+      "fusion_better_mae_probability": 0.5118,
+      "mean_mse_difference_fusion_minus_transformer": -0.00026084925048053265,
+      "mse_95_ci": [
+        -0.0009321649564273016,
+        0.0003710291449858658
+      ],
+      "fusion_better_mse_probability": 0.7602
+    },
+    "2022": {
+      "origin_count": 5568,
+      "block_length": 168,
+      "resamples": 10000,
+      "bootstrap_seed": 42,
+      "mean_mae_difference_fusion_minus_transformer": -0.0026245054323226213,
+      "mae_95_ci": [
+        -0.004634268822417067,
+        -0.0008120574756848612
+      ],
+      "fusion_better_mae_probability": 0.9974,
+      "mean_mse_difference_fusion_minus_transformer": -0.0002977396361529827,
+      "mse_95_ci": [
+        -0.001063160252557156,
+        0.00040643895082191205
+      ],
+      "fusion_better_mse_probability": 0.7822
+    },
+    "2023": {
+      "origin_count": 5568,
+      "block_length": 168,
+      "resamples": 10000,
+      "bootstrap_seed": 42,
+      "mean_mae_difference_fusion_minus_transformer": -0.005931205581873655,
+      "mae_95_ci": [
+        -0.007837493137450455,
+        -0.004044759003875373
+      ],
+      "fusion_better_mae_probability": 1.0,
+      "mean_mse_difference_fusion_minus_transformer": -0.0009855895768851042,
+      "mse_95_ci": [
+        -0.001932070659514706,
+        -0.00014450308765468642
+      ],
+      "fusion_better_mse_probability": 0.9902
+    },
+    "three_seed_average": {
+      "mean_mae_difference_fusion_minus_transformer": -0.0028752467551385053,
+      "mae_95_ci": [
+        -0.003934059082377114,
+        -0.0018114958105512262
+      ],
+      "fusion_better_mae_probability": 1.0,
+      "mean_mse_difference_fusion_minus_transformer": -0.0005147261545062065,
+      "mse_95_ci": [
+        -0.0009590307010118568,
+        -7.165923261535164e-05
+      ],
+      "fusion_better_mse_probability": 0.9891
+    }
+  },
+  "non_overlapping_origin_sensitivity": {
+    "2021": {
+      "origin_stride": 72,
+      "sample_count": 78,
+      "mean_mae_difference_fusion_minus_transformer": -0.001108237192966044,
+      "mean_mse_difference_fusion_minus_transformer": 6.631932046730071e-05
+    },
+    "2022": {
+      "origin_stride": 72,
+      "sample_count": 78,
+      "mean_mae_difference_fusion_minus_transformer": -0.005344506818801165,
+      "mean_mse_difference_fusion_minus_transformer": -0.0008350114221684635
+    },
+    "2023": {
+      "origin_stride": 72,
+      "sample_count": 78,
+      "mean_mae_difference_fusion_minus_transformer": -0.006627718452364206,
+      "mean_mse_difference_fusion_minus_transformer": -0.0010588278528302908
+    },
+    "three_seed_average": {
+      "mean_mae_difference_fusion_minus_transformer": -0.004360154154710472,
+      "mean_mse_difference_fusion_minus_transformer": -0.0006091733181771511
+    }
+  },
+  "fairness_audits": {
+    "2021": {
+      "left_manifest": "GEFCOM_ZONE1_336_72_FAIR_Transformer_custom_solar_ftS_sl336_ll48_pl72_dm512_nh8_el3_dl2_df2048_fc1_ebtimeF_dtTrue_formal_power_only_pair_0",
+      "right_manifest": "GEFCOM_ZONE1_336_72_FAIR_FusionSFSolar_custom_solar_ftS_sl336_ll48_pl72_dm512_nh8_el3_dl2_df2048_fc1_ebtimeF_dtTrue_formal_power_only_pair_0",
+      "checks": {
+        "same_dataset_class": true,
+        "same_data_file_sha256": true,
+        "same_features": true,
+        "same_target": true,
+        "same_freq": true,
+        "same_seq_len": true,
+        "same_label_len": true,
+        "same_pred_len": true,
+        "same_train_scaler_fit_rows": true,
+        "same_inverse": true,
+        "same_batch_size": true,
+        "same_seed": true,
+        "same_train_val_test_boundaries": true,
+        "same_scaler_mean": true,
+        "same_scaler_scale": true,
+        "same_test_window_count": true,
+        "same_origin_timestamps": true,
+        "same_full_target_timestamps": true,
+        "same_raw_metric_function": true
+      },
+      "fair_benchmark": true
+    },
+    "2022": {
+      "left_manifest": "GEFCOM_ZONE1_336_72_SEED2022_Transformer_custom_solar_ftS_sl336_ll48_pl72_dm512_nh8_el3_dl2_df2048_fc1_ebtimeF_dtTrue_formal_power_only_pair_0",
+      "right_manifest": "GEFCOM_ZONE1_336_72_SEED2022_FusionSFSolar_custom_solar_ftS_sl336_ll48_pl72_dm512_nh8_el3_dl2_df2048_fc1_ebtimeF_dtTrue_formal_power_only_pair_0",
+      "checks": {
+        "same_dataset_class": true,
+        "same_data_file_sha256": true,
+        "same_features": true,
+        "same_target": true,
+        "same_freq": true,
+        "same_seq_len": true,
+        "same_label_len": true,
+        "same_pred_len": true,
+        "same_train_scaler_fit_rows": true,
+        "same_inverse": true,
+        "same_batch_size": true,
+        "same_seed": true,
+        "same_data_loader_drop_last": true,
+        "same_dataset_test_window_count": true,
+        "same_evaluated_test_window_count": true,
+        "same_dropped_test_window_count": true,
+        "same_train_val_test_boundaries": true,
+        "same_scaler_mean": true,
+        "same_scaler_scale": true,
+        "same_test_window_count": true,
+        "same_origin_timestamps": true,
+        "same_full_target_timestamps": true,
+        "same_raw_metric_function": true
+      },
+      "fair_benchmark": true
+    },
+    "2023": {
+      "left_manifest": "GEFCOM_ZONE1_336_72_SEED2023_Transformer_custom_solar_ftS_sl336_ll48_pl72_dm512_nh8_el3_dl2_df2048_fc1_ebtimeF_dtTrue_formal_power_only_pair_0",
+      "right_manifest": "GEFCOM_ZONE1_336_72_SEED2023_FusionSFSolar_custom_solar_ftS_sl336_ll48_pl72_dm512_nh8_el3_dl2_df2048_fc1_ebtimeF_dtTrue_formal_power_only_pair_0",
+      "checks": {
+        "same_dataset_class": true,
+        "same_data_file_sha256": true,
+        "same_features": true,
+        "same_target": true,
+        "same_freq": true,
+        "same_seq_len": true,
+        "same_label_len": true,
+        "same_pred_len": true,
+        "same_train_scaler_fit_rows": true,
+        "same_inverse": true,
+        "same_batch_size": true,
+        "same_seed": true,
+        "same_data_loader_drop_last": true,
+        "same_dataset_test_window_count": true,
+        "same_evaluated_test_window_count": true,
+        "same_dropped_test_window_count": true,
+        "same_train_val_test_boundaries": true,
+        "same_scaler_mean": true,
+        "same_scaler_scale": true,
+        "same_test_window_count": true,
+        "same_origin_timestamps": true,
+        "same_full_target_timestamps": true,
+        "same_raw_metric_function": true
+      },
+      "fair_benchmark": true
+    }
+  },
+  "test_window_protocol": {
+    "2021": {
+      "data_loader_drop_last": true,
+      "dataset_test_window_count": 5625,
+      "evaluated_test_window_count": 5568,
+      "dropped_test_window_count": 57
+    },
+    "2022": {
+      "data_loader_drop_last": true,
+      "dataset_test_window_count": 5625,
+      "evaluated_test_window_count": 5568,
+      "dropped_test_window_count": 57
+    },
+    "2023": {
+      "data_loader_drop_last": true,
+      "dataset_test_window_count": 5625,
+      "evaluated_test_window_count": 5568,
+      "dropped_test_window_count": 57
+    }
+  },
+  "decision": {
+    "mae_improved_seed_count": 3,
+    "rmse_improved_seed_count": 3,
+    "average_relative_mae_change_pct": -4.350975618242435,
+    "average_relative_rmse_change_pct": -1.8784846057158144,
+    "recommendation": "recommend_expand_to_gefcom_pred_len_1_and_4"
+  }
+}

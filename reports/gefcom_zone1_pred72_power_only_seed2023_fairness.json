@@ -1,0 +1,30 @@
+{
+  "left_manifest": "GEFCOM_ZONE1_336_72_SEED2023_Transformer_custom_solar_ftS_sl336_ll48_pl72_dm512_nh8_el3_dl2_df2048_fc1_ebtimeF_dtTrue_formal_power_only_pair_0",
+  "right_manifest": "GEFCOM_ZONE1_336_72_SEED2023_FusionSFSolar_custom_solar_ftS_sl336_ll48_pl72_dm512_nh8_el3_dl2_df2048_fc1_ebtimeF_dtTrue_formal_power_only_pair_0",
+  "checks": {
+    "same_dataset_class": true,
+    "same_data_file_sha256": true,
+    "same_features": true,
+    "same_target": true,
+    "same_freq": true,
+    "same_seq_len": true,
+    "same_label_len": true,
+    "same_pred_len": true,
+    "same_train_scaler_fit_rows": true,
+    "same_inverse": true,
+    "same_batch_size": true,
+    "same_seed": true,
+    "same_data_loader_drop_last": true,
+    "same_dataset_test_window_count": true,
+    "same_evaluated_test_window_count": true,
+    "same_dropped_test_window_count": true,
+    "same_train_val_test_boundaries": true,
+    "same_scaler_mean": true,
+    "same_scaler_scale": true,
+    "same_test_window_count": true,
+    "same_origin_timestamps": true,
+    "same_full_target_timestamps": true,
+    "same_raw_metric_function": true
+  },
+  "fair_benchmark": true
+}

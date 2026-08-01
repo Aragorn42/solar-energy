@@ -65,6 +65,8 @@ def protocol_manifest():
         "label_len": 48, "pred_len": 72,
         "train_scaler_fit_rows": {"start_inclusive": 0, "end_exclusive": 10},
         "inverse": False, "batch_size": 64, "seed": 2021,
+        "data_loader_drop_last": True, "dataset_test_window_count": 2,
+        "evaluated_test_window_count": 2, "dropped_test_window_count": 0,
         "split_boundaries": {"train": [0, 10], "val": [8, 12], "test": [10, 20]},
         "scaler_mean": [1.0], "scaler_scale": [2.0], "test_window_count": 2,
         "test_origin_timestamps": ["2020-01-01", "2020-01-02"],
