@@ -1,6 +1,6 @@
 from data_provider.data_factory_solarv2 import data_provider
 from exp.exp_basic_solarv2 import Exp_Basic
-from models import Transformer, DLinear, PatchTST, Stat_models, iTransformer, tcn, GBDT, NLinear
+from models import Transformer, DLinear, PatchTST, Stat_models, iTransformer, tcn, GBDT, NLinear, FusionSFSolar
 from utils.tools import EarlyStopping, adjust_learning_rate, visual, test_params_flop
 from utils.metrics import metric
 
@@ -34,6 +34,7 @@ class Exp_Main(Exp_Basic):
             'LSTM_baseline': Stat_models.LSTM_baseline,
             'tcn': tcn,
             'NLinear': NLinear,
+            'FusionSFSolar': FusionSFSolar,
         }
         # model = model_dict[self.args.model].Model(self.args).float()
         model_class = model_dict[self.args.model]
@@ -60,6 +61,8 @@ class Exp_Main(Exp_Basic):
         self.model.eval()
         with torch.no_grad():
             for i, (batch_x, batch_y, batch_x_mark, batch_y_mark) in enumerate(vali_loader):
+                if self.args.debug_val_batches and i >= self.args.debug_val_batches:
+                    break
                 batch_x = batch_x.float().to(self.device)
                 batch_y = batch_y.float()
 
@@ -136,6 +139,8 @@ class Exp_Main(Exp_Basic):
             self.model.train()
             epoch_time = time.time()
             for i, (batch_x, batch_y, batch_x_mark, batch_y_mark) in enumerate(train_loader):
+                if self.args.debug_train_batches and i >= self.args.debug_train_batches:
+                    break
                 iter_count += 1
                 model_optim.zero_grad()
                 batch_x = batch_x.float().to(self.device)
@@ -246,6 +251,8 @@ class Exp_Main(Exp_Basic):
         self.model.eval()
         with torch.no_grad():
             for i, (batch_x, batch_y, batch_x_mark, batch_y_mark) in enumerate(test_loader):
+                if self.args.debug_test_batches and i >= self.args.debug_test_batches:
+                    break
                 batch_x = batch_x.float().to(self.device)
                 batch_y = batch_y.float().to(self.device)
 
@@ -325,6 +332,10 @@ class Exp_Main(Exp_Basic):
         if not os.path.exists(folder_path):
             os.makedirs(folder_path)
         np.save(os.path.join(folder_path, 'pred.npy'), preds)
+        np.save(os.path.join(folder_path, 'true.npy'), trues)
+        # Match the canonical long-term-forecast metrics.npy order.
+        np.save(os.path.join(folder_path, 'metrics.npy'),
+                np.array([mae, mse, rmse, mape, mspe], dtype=np.float64))
 
         # ================== 关键改动 1：逆标准化（仅目标通道） ==================
         scaler = getattr(test_data, 'scaler', None)

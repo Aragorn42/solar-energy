@@ -1,0 +1,36 @@
+{
+  "experiment_track": "standard_power_only",
+  "dataset_class": "Dataset_Custom_Solar",
+  "split_boundaries": {
+    "train": [
+      0,
+      11960
+    ],
+    "val": [
+      11624,
+      13288
+    ],
+    "test": [
+      12952,
+      18984
+    ]
+  },
+  "test_window_count": 5625,
+  "first_test_origin": "2013-10-06T16:00:00.000000000",
+  "last_test_origin": "2014-05-29T00:00:00.000000000",
+  "first_target_range": [
+    "2013-10-06T17:00:00.000000000",
+    "2013-10-09T16:00:00.000000000"
+  ],
+  "checks": {
+    "same_dataset_class": true,
+    "same_train_val_test_boundaries": true,
+    "same_scaler_training_range": true,
+    "same_test_window_count": true,
+    "same_test_target_timestamps": true,
+    "same_seq_len_and_pred_len": true,
+    "same_inverse_transform": true,
+    "same_raw_metric_function": true
+  },
+  "fair_benchmark": true
+}

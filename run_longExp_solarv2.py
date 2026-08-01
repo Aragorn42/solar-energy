@@ -96,6 +96,12 @@ parser.add_argument('--patience', type=int, default=100, help='early stopping pa
 parser.add_argument('--learning_rate', type=float, default=0.0001, help='optimizer learning rate')
 parser.add_argument('--des', type=str, default='test', help='exp description')
 parser.add_argument('--loss', type=str, default='mse', help='loss function')
+parser.add_argument('--debug_train_batches', type=int, default=0,
+                    help='debug only: cap train batches per epoch; 0 keeps the standard path')
+parser.add_argument('--debug_val_batches', type=int, default=0,
+                    help='debug only: cap validation batches; 0 keeps the standard path')
+parser.add_argument('--debug_test_batches', type=int, default=0,
+                    help='debug only: cap test batches; 0 keeps the standard path')
 parser.add_argument('--lradj', type=str, default='type3', help='adjust learning rate')
 parser.add_argument('--pct_start', type=float, default=0.3, help='pct_start')
 parser.add_argument('--use_amp', action='store_true', help='use automatic mixed precision training', default=False)
