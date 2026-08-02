@@ -13,6 +13,12 @@ Last updated: 2026-08-02
 
 ## Completed / reviewed
 
+- `stage3b_fusion_mmsp_chronos2`: **completed locally; negative result**
+  - Frozen full-modal checkpoint and Chronos-2; 25,450 shared windows on unseen MMSP sites 0–9
+  - Fusion aligned MAE 0.071684 versus baseline 0.066126, TS aligned 0.070519, shuffled Fusion 0.071684
+  - NWP/satellite perturbation changes the formal fusion embedding, but aligned and shuffled Chronos predictions are identical
+  - Output: `results/stage3b/mmsp_24_24_fusion_embedding/`
+
 - `stage3b_mmsp_ts_fusion_embedding`: **blocked at preflight; awaiting review**
   - Selected full-modal cross-site checkpoint: train sites 10–19, unseen test sites 0–9
   - NWP file has valid time only; issue/publication time and forecast cycle are absent
@@ -36,7 +42,7 @@ Last updated: 2026-08-02
 ## Planned
 
 - Additional seeds for pred_len 1 and 4 only if explicitly approved.
-- Complete MMSP Fusion embedding remains paused until future-NWP issue-time availability is proven.
+- No Fusion method change is planned; retain the negative result unless a separately approved injection redesign is proposed.
 
 ## Boundaries
 
