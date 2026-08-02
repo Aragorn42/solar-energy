@@ -1,0 +1,16 @@
+{
+  "aligned_minus_baseline_mae": {
+    "mean_difference": 0.0043927445076406,
+    "ci_2_5": 0.004152705788146705,
+    "ci_97_5": 0.0046473831404000516,
+    "resamples": 2000,
+    "seed": 2021
+  },
+  "aligned_minus_shuffled_mae": {
+    "mean_difference": -4.878730806012754e-07,
+    "ci_2_5": -1.7909152074935263e-05,
+    "ci_97_5": 1.7899465319715064e-05,
+    "resamples": 2000,
+    "seed": 2021
+  }
+}

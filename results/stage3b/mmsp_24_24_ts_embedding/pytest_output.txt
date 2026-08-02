@@ -1,0 +1,16 @@
+Solar Stage 3B-TS targeted tests:
+......                                                                   [100%]
+6 passed in 3.30s
+
+Stage 3B preflight + TS tests:
+...........                                                              [100%]
+11 passed in 3.52s
+
+FusionSF embedding interface tests:
+.........                                                                [100%]
+9 passed, 4 warnings in 0.17s
+
+The complete solar-energy suite under the FusionSF interpreter produced
+59 passed, 1 failed, and 4 errors. The failures are environment/dependency
+issues in pre-existing Stage 3A tests: that interpreter lacks Chronos and
+pkg_resources. No Stage 3B-TS targeted test failed.

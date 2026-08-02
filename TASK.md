@@ -31,11 +31,12 @@ Last updated: 2026-08-02
 - `gefcom_zone1_pred72_three_seed`: Transformer versus FusionSFSolar Power-only comparison passed review.
 - `gefcom_zone1_short_horizons_seed2021`: pred_len 1 and 4 paired runs completed; short-horizon direction was not stable.
 - `solarv4_full_acceptance`: static audit and GEFCom zone1 three-task preflight passed at commit `712bfcc`.
+- `stage3b_ts_mmsp_chronos2`: completed frozen inference on 25,450 windows from unseen MMSP sites 0–9. Aligned TS embeddings did not outperform shuffled embeddings and underperformed the Chronos-2 baseline; retained as a negative result. Output: `results/stage3b/mmsp_24_24_ts_embedding/`.
 
 ## Planned
 
 - Additional seeds for pred_len 1 and 4 only if explicitly approved.
-- No follow-up MMSP embedding → Chronos-2 method design is active; Stage 3A audit awaits review.
+- Complete MMSP Fusion embedding remains paused until future-NWP issue-time availability is proven.
 
 ## Boundaries
 

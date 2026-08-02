@@ -1,0 +1,36 @@
+{
+  "scope": "smoke",
+  "dataset": "MMSP",
+  "sites": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+  ],
+  "seq_len": 24,
+  "pred_len": 24,
+  "split": "fixed_v1 final 20% target-time test",
+  "groups": [
+    "baseline",
+    "ts_aligned",
+    "ts_shuffled"
+  ],
+  "checkpoint": "/home/zhaopp/workspace/FusionSF/outputs/pipeline_v1_fixed/20260731_224035_fusionsf_fixedv1_clean30_zeroshot_train10_19_test0_9_seed42/checkpoints/epoch_epoch=006.ckpt",
+  "checkpoint_sha256": "fb576b03efa1d0ad53b2cdcdfd519b541e03cafdda6af6039436df3e1572c6cc",
+  "chronos_model": "/home/zhaopp/.cache/huggingface/hub/models--amazon--chronos-2/snapshots/29ec3766d36d6f73f0696f85560a422f50e8498c",
+  "shuffle_seed": 2021,
+  "quantile": 0.5,
+  "context_length": 24,
+  "cross_learning": false,
+  "model_batch_size": 32,
+  "fusionsf_parameter_digest": "14051f8f87f82249d8e9807877db1a020ad836a349fa66c243029dabfdd91818",
+  "chronos_parameter_digest": "a862ae6ef5cc2fe4c31f8e1d4ab7b293a72895bc2c68f1676d7d476f6c278b33",
+  "fusionsf_git_commit": "416fe058a292d7645cc17ceb07effa8444c14a2a",
+  "solar_git_commit": "aa6b79ba131783154d7c90b90916915222127f71"
+}

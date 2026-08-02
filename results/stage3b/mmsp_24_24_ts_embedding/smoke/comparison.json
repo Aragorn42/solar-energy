@@ -1,0 +1,59 @@
+{
+  "metrics": {
+    "baseline": {
+      "mae": 0.08286022394895554,
+      "rmse": 0.1507081538438797,
+      "nmae": 0.08286022394895554,
+      "nrmse": 0.1507081538438797,
+      "normalization_capacity": 1.0,
+      "shape": [
+        32,
+        24
+      ]
+    },
+    "ts_aligned": {
+      "mae": 0.08727860450744629,
+      "rmse": 0.15934546291828156,
+      "nmae": 0.08727860450744629,
+      "nrmse": 0.15934546291828156,
+      "normalization_capacity": 1.0,
+      "shape": [
+        32,
+        24
+      ]
+    },
+    "ts_shuffled": {
+      "mae": 0.0873761773109436,
+      "rmse": 0.15946057438850403,
+      "nmae": 0.0873761773109436,
+      "nrmse": 0.15946057438850403,
+      "normalization_capacity": 1.0,
+      "shape": [
+        32,
+        24
+      ]
+    }
+  },
+  "aligned_vs_baseline": {
+    "mae": {
+      "absolute": 0.004418380558490753,
+      "relative_pct": 5.332329974406794
+    },
+    "rmse": {
+      "absolute": 0.008637309074401855,
+      "relative_pct": 5.731149147609719
+    }
+  },
+  "aligned_vs_shuffled": {
+    "mae": {
+      "absolute": -9.757280349731445e-05,
+      "relative_pct": -0.11166980119773877
+    },
+    "rmse": {
+      "absolute": -0.00011511147022247314,
+      "relative_pct": -0.07218804438896581
+    }
+  },
+  "aligned_window_win_rate_vs_baseline": 0.125,
+  "aligned_window_win_rate_vs_shuffled": 0.59375
+}

@@ -1,0 +1,21 @@
+{
+  "scope": "full",
+  "full_multimodal_checkpoint_ts_branch": true,
+  "historical_power_only": true,
+  "nwp_used": false,
+  "satellite_used": false,
+  "future_power_used_as_input": false,
+  "context_ends_at_origin": true,
+  "same_windows_origins_targets_all_groups": true,
+  "future_df_has_embedding": false,
+  "shuffle_fixed_points": 0,
+  "shuffle_exact": true,
+  "fusionsf_parameters_updated": false,
+  "chronos_parameters_updated": false,
+  "optimizer_created": false,
+  "backward_called": false,
+  "fit_called": false,
+  "trainable_module_added": false,
+  "window_count": 25450,
+  "site_count": 10
+}
