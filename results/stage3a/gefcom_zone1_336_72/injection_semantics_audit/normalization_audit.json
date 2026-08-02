@@ -1,0 +1,96 @@
+{
+  "before_dataframe": {
+    "aligned": {
+      "embedding_shape": [
+        64,
+        64
+      ],
+      "global_min": -1.260866641998291,
+      "global_max": 1.5342581272125244,
+      "global_mean": 2.462498378008604e-05,
+      "global_std": 0.5245916247367859,
+      "per_dimension_std_min": 0.04362379387021065,
+      "per_dimension_std_max": 0.17540670931339264,
+      "zero_variance_dimension_count": 0
+    },
+    "shuffled": {
+      "embedding_shape": [
+        64,
+        64
+      ],
+      "global_min": -1.7916063070297241,
+      "global_max": 1.7077624797821045,
+      "global_mean": -0.0006513749831356108,
+      "global_std": 0.5994592905044556,
+      "per_dimension_std_min": 0.12532258033752441,
+      "per_dimension_std_max": 0.4827441871166229,
+      "zero_variance_dimension_count": 0
+    },
+    "zero": {
+      "embedding_shape": [
+        64,
+        64
+      ],
+      "global_min": 0.0,
+      "global_max": 0.0,
+      "global_mean": 0.0,
+      "global_std": 0.0,
+      "per_dimension_std_min": 0.0,
+      "per_dimension_std_max": 0.0,
+      "zero_variance_dimension_count": 64
+    }
+  },
+  "chronos_instance_norm": {
+    "class": "chronos.chronos_bolt.InstanceNorm",
+    "dimension": -1,
+    "dimension_semantics": "each item/variable independently across 336 context time steps",
+    "eps": 1e-05,
+    "use_arcsinh": true
+  },
+  "after_instance_normalization_first_8": {
+    "aligned": {
+      "post_norm_min": -0.8813735842704773,
+      "post_norm_max": 0.8813735842704773,
+      "post_norm_mean": -0.024100054055452347,
+      "post_norm_std": 0.49518653750419617,
+      "post_norm_max_abs": 0.8813735842704773,
+      "finite": true,
+      "shape": [
+        8,
+        64,
+        336
+      ]
+    },
+    "shuffled": {
+      "post_norm_min": -0.8813735842704773,
+      "post_norm_max": 0.8813735842704773,
+      "post_norm_mean": 0.048200108110904694,
+      "post_norm_std": 0.5174387693405151,
+      "post_norm_max_abs": 0.8813735842704773,
+      "finite": true,
+      "shape": [
+        8,
+        64,
+        336
+      ]
+    },
+    "zero": {
+      "post_norm_min": 0.0,
+      "post_norm_max": 0.0,
+      "post_norm_mean": 0.0,
+      "post_norm_std": 0.0,
+      "post_norm_max_abs": 0.0,
+      "finite": true,
+      "shape": [
+        8,
+        64,
+        336
+      ]
+    }
+  },
+  "comparisons": {
+    "aligned_vs_shuffled_allclose": false,
+    "aligned_vs_zero_allclose": false,
+    "atol": 1e-07
+  }
+}

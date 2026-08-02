@@ -1,0 +1,16 @@
+{
+  "dataset": "GEFCom zone1",
+  "seq_len": 336,
+  "pred_len": 72,
+  "strict_test_only": 1,
+  "test_ratio": 0.3,
+  "freq": "1h",
+  "cross_learning": 0,
+  "window_selection": "first 64 saved valid Stage 3A windows",
+  "quantile": 0.5,
+  "context_length": 336,
+  "window_batch_size": 64,
+  "model_batch_size": 64,
+  "source_stage_root": "/home/zhaopp/workspace/solar-energy/results/stage3a/gefcom_zone1_336_72",
+  "normalization_atol": 1e-07
+}

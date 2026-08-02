@@ -1,0 +1,26 @@
+{
+  "aligned_vs_shuffled": {
+    "max_abs_diff": 0.007373452186584473,
+    "mean_abs_diff": 0.0006084500346332788,
+    "prediction_allclose_atol_1e-7": false,
+    "left_window_mae_win_rate": 0.5
+  },
+  "aligned_vs_zero": {
+    "max_abs_diff": 0.02490667998790741,
+    "mean_abs_diff": 0.002019156701862812,
+    "prediction_allclose_atol_1e-7": false,
+    "left_window_mae_win_rate": 0.75
+  },
+  "shuffled_vs_zero": {
+    "max_abs_diff": 0.026819951832294464,
+    "mean_abs_diff": 0.002108924323692918,
+    "prediction_allclose_atol_1e-7": false,
+    "left_window_mae_win_rate": 0.765625
+  },
+  "baseline_vs_zero": {
+    "max_abs_diff": 0.05810871720314026,
+    "mean_abs_diff": 0.005654920823872089,
+    "prediction_allclose_atol_1e-7": false,
+    "left_window_mae_win_rate": 0.65625
+  }
+}
