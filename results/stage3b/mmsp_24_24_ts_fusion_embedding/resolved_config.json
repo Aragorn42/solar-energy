@@ -1,0 +1,17 @@
+{
+  "dataset": "MMSP",
+  "seq_len": 24,
+  "pred_len": 24,
+  "frequency": "1h",
+  "requested_groups": [
+    "baseline",
+    "ts_aligned",
+    "fusion_aligned",
+    "ts_shuffled",
+    "fusion_shuffled"
+  ],
+  "selected_checkpoint": "/home/zhaopp/workspace/FusionSF/outputs/pipeline_v1_fixed/20260731_224035_fusionsf_fixedv1_clean30_zeroshot_train10_19_test0_9_seed42/checkpoints/epoch_epoch=006.ckpt",
+  "execution_status": "blocked_preflight",
+  "conclusion_rule": "E",
+  "downstream_prediction_experiments_started": false
+}

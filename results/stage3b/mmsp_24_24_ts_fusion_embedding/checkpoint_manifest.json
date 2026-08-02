@@ -1,0 +1,85 @@
+{
+  "selected_checkpoint": "/home/zhaopp/workspace/FusionSF/outputs/pipeline_v1_fixed/20260731_224035_fusionsf_fixedv1_clean30_zeroshot_train10_19_test0_9_seed42/checkpoints/epoch_epoch=006.ckpt",
+  "checkpoint_sha256": "fb576b03efa1d0ad53b2cdcdfd519b541e03cafdda6af6039436df3e1572c6cc",
+  "selection_basis": "fixed_v1 clean30 cross-site full-modal registry row; val/mae-selected epoch 006",
+  "training_sites": [
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19
+  ],
+  "validation_sites": [
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19
+  ],
+  "unseen_test_sites": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+  ],
+  "seq_len": 24,
+  "pred_len": 24,
+  "frequency": "1h",
+  "embedding_dim": 64,
+  "enabled_modalities": [
+    "historical_power",
+    "future_nwp",
+    "historical_satellite"
+  ],
+  "ts_encoder": {
+    "depth": 4,
+    "heads": 4,
+    "dim_head": 64,
+    "ts_length": 24
+  },
+  "nwp_encoder": {
+    "guide_channels": 15
+  },
+  "satellite_encoder": {
+    "image_size": [
+      64,
+      64
+    ],
+    "patch_size": [
+      8,
+      8
+    ]
+  },
+  "fusion": {
+    "model_class": "src.models.fusionSF_3modal.FusionSF3M",
+    "use_self_attention": true,
+    "num_mlp_heads": 9
+  },
+  "vq": {
+    "ts": false,
+    "context": false,
+    "guide": false
+  },
+  "checkpoint_selection": {
+    "monitor": "val/mae",
+    "mode": "min"
+  },
+  "alternative_full_modal_candidate": "/home/zhaopp/workspace/FusionSF/outputs/pipeline_v1_fixed/20260731_224035_fusionsf_fixedv1_clean30_full_sites10_seed42/checkpoints/epoch_epoch=001.ckpt",
+  "alternative_rejected_reason": "training and test sites are both 0-9; not the requested unseen-site primary protocol"
+}

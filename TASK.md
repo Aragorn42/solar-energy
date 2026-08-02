@@ -13,6 +13,11 @@ Last updated: 2026-08-02
 
 ## Completed / reviewed
 
+- `stage3b_mmsp_ts_fusion_embedding`: **blocked at preflight; awaiting review**
+  - Selected full-modal cross-site checkpoint: train sites 10–19, unseen test sites 0–9
+  - NWP file has valid time only; issue/publication time and forecast cycle are absent
+  - Conclusion E; no FusionSF/Chronos loading, embedding extraction, smoke, or full run
+  - Audit: `results/stage3b/mmsp_24_24_ts_fusion_embedding/audit_report.md`
 - `stage3b_embedding_linear_probe`: **completed locally; awaiting review**
   - GEFCom zone1, 336→72, all 5,289 saved Stage 3A windows
   - Frozen aligned/shuffled embeddings, raw24, and zero; multi-output Ridge only

@@ -1,0 +1,13 @@
+{
+  "python": "3.11.15 (main, Mar 11 2026, 17:20:07) [GCC 14.3.0]",
+  "platform": "Linux-6.8.0-85-generic-x86_64-with-glibc2.35",
+  "pytorch": "2.11.0+cu128",
+  "cuda_runtime": "12.8",
+  "gpu": [
+    "unavailable: CalledProcessError(9, ['nvidia-smi', '--query-gpu=index,name,driver_version', '--format=csv,noheader'])"
+  ],
+  "chronos_package_version": "2.2.2",
+  "chronos_model": "amazon/chronos-2 local snapshot 29ec3766d36d6f73f0696f85560a422f50e8498c",
+  "fusionsf_git_commit": "b3601a62e81424fccd2d2037d5a18df6ecf92d16",
+  "solar_energy_git_commit": "1bc44ff9e64bbd16c1b53681563f762bfb3ac8b8"
+}
