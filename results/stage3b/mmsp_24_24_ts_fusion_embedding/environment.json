@@ -4,7 +4,14 @@
   "pytorch": "2.11.0+cu128",
   "cuda_runtime": "12.8",
   "gpu": [
-    "unavailable: CalledProcessError(9, ['nvidia-smi', '--query-gpu=index,name,driver_version', '--format=csv,noheader'])"
+    "0: NVIDIA RTX 5880 Ada Generation, driver 580.173.02, 49140 MiB",
+    "1: NVIDIA RTX 5880 Ada Generation, driver 580.173.02, 49140 MiB",
+    "2: NVIDIA RTX 5880 Ada Generation, driver 580.173.02, 49140 MiB",
+    "3: NVIDIA RTX 5880 Ada Generation, driver 580.173.02, 49140 MiB",
+    "4: NVIDIA RTX 5880 Ada Generation, driver 580.173.02, 49140 MiB",
+    "5: NVIDIA RTX 5880 Ada Generation, driver 580.173.02, 49140 MiB",
+    "6: NVIDIA RTX 5880 Ada Generation, driver 580.173.02, 49140 MiB",
+    "7: NVIDIA RTX 5880 Ada Generation, driver 580.173.02, 49140 MiB"
   ],
   "chronos_package_version": "2.2.2",
   "chronos_model": "amazon/chronos-2 local snapshot 29ec3766d36d6f73f0696f85560a422f50e8498c",
