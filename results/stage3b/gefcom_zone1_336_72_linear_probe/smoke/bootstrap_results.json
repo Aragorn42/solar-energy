@@ -1,0 +1,20 @@
+{
+  "aligned_minus_shuffled_mae": {
+    "mean_difference": 0.008116569031368603,
+    "ci_2_5": -0.007075293058553687,
+    "ci_97_5": 0.023254621270802113,
+    "resamples": 2000,
+    "seed": 2021,
+    "sampling_unit": "forecast_window",
+    "interval_crosses_zero": true
+  },
+  "aligned_minus_raw24_mae": {
+    "mean_difference": 0.13128211223459862,
+    "ci_2_5": 0.1256308316543408,
+    "ci_97_5": 0.13693132288209706,
+    "resamples": 2000,
+    "seed": 2021,
+    "sampling_unit": "forecast_window",
+    "interval_crosses_zero": false
+  }
+}

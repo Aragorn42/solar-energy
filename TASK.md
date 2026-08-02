@@ -13,6 +13,11 @@ Last updated: 2026-08-02
 
 ## Completed / reviewed
 
+- `stage3b_embedding_linear_probe`: **completed locally; awaiting review**
+  - GEFCom zone1, 336→72, all 5,289 saved Stage 3A windows
+  - Frozen aligned/shuffled embeddings, raw24, and zero; multi-output Ridge only
+  - Result: conclusion C; aligned did not beat shuffled or raw24
+  - Output: `results/stage3b/gefcom_zone1_336_72_linear_probe/`
 - `stage3a_injection_semantics_audit`: **completed locally; awaiting review**
   - GEFCom zone1, 336→72, first 64 saved Stage 3A windows
   - Chronos-2 baseline/aligned/shuffled/zero; inference only

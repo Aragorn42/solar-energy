@@ -1,0 +1,29 @@
+{
+  "run_scope": "full",
+  "dataset": "GEFCom2014 solar zone1",
+  "seq_len": 336,
+  "pred_len": 72,
+  "freq": "1h",
+  "split": "chronological 60/10/30",
+  "alphas": [
+    0.0,
+    0.0001,
+    0.001,
+    0.01,
+    0.1,
+    1.0,
+    10.0,
+    100.0,
+    1000.0
+  ],
+  "alpha_selection": "minimum validation MAE; larger alpha on exact tie",
+  "target_standardized": false,
+  "bootstrap_resamples": 2000,
+  "bootstrap_seed": 2021,
+  "input_groups": [
+    "aligned",
+    "shuffled",
+    "raw24",
+    "zero"
+  ]
+}

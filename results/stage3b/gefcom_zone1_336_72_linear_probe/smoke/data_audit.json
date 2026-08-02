@@ -1,0 +1,48 @@
+{
+  "stage3a_full_sample_count": 5289,
+  "used_sample_count": 512,
+  "aligned_shape": [
+    512,
+    64
+  ],
+  "shuffled_shape": [
+    512,
+    64
+  ],
+  "raw24_shape": [
+    512,
+    24
+  ],
+  "zero_shape": [
+    512,
+    64
+  ],
+  "y_shape": [
+    512,
+    72
+  ],
+  "t_origin_shape": [
+    512
+  ],
+  "split_ranges": {
+    "train": {
+      "count": 307,
+      "origin_start": "2013-10-20T16:00:00.000000000",
+      "origin_end": "2013-11-02T10:00:00.000000000"
+    },
+    "validation": {
+      "count": 51,
+      "origin_start": "2013-11-02T11:00:00.000000000",
+      "origin_end": "2013-11-04T13:00:00.000000000"
+    },
+    "test": {
+      "count": 154,
+      "origin_start": "2013-11-04T14:00:00.000000000",
+      "origin_end": "2013-11-10T23:00:00.000000000"
+    }
+  },
+  "aligned_sha256": "539065d02d0798f8fb2b778bf5d95d24aa5138369463f52203d2719b6380ed13",
+  "shuffled_sha256": "14477d93aeda7fa6b505f4278ac786628d80a4bcbb038e4bfd3bb0966f39dedc",
+  "y_sha256": "2add797b9b305f60857826a81a5689b00b4c8c1b7a56d3e8abff78b240d66912",
+  "origin_sha256": "d15ae8650b37dc5d9f84d14f2611b31127d3bebd5312479313b8b3627b62385c"
+}

@@ -1,0 +1,23 @@
+{
+  "stage3a_shapes_and_rows_valid": true,
+  "forecast_origin_unchanged": true,
+  "raw24_exactly_origin_minus_23h_through_origin": true,
+  "future_information_used": false,
+  "chronological_split": true,
+  "split_overlap": false,
+  "scalers_fit_train_only": true,
+  "alpha_selected_validation_only": true,
+  "test_used_once_after_selection": true,
+  "saved_shuffle_used_without_regeneration": true,
+  "shuffle_fixed_points": 0,
+  "aligned_shuffled_same_samples_marginal_distribution_shape": true,
+  "all_groups_same_y_and_test_origins": true,
+  "future_weather_used": false,
+  "fusionsf_trained": false,
+  "chronos_imported_or_run": false,
+  "neural_network_or_trainable_fusion_added": false,
+  "only_trainable_model": "sklearn.linear_model.Ridge",
+  "bootstrap_resamples": 2000,
+  "bootstrap_seed": 2021,
+  "conclusion": "C"
+}

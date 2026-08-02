@@ -1,0 +1,48 @@
+{
+  "stage3a_full_sample_count": 5289,
+  "used_sample_count": 5289,
+  "aligned_shape": [
+    5289,
+    64
+  ],
+  "shuffled_shape": [
+    5289,
+    64
+  ],
+  "raw24_shape": [
+    5289,
+    24
+  ],
+  "zero_shape": [
+    5289,
+    64
+  ],
+  "y_shape": [
+    5289,
+    72
+  ],
+  "t_origin_shape": [
+    5289
+  ],
+  "split_ranges": {
+    "train": {
+      "count": 3173,
+      "origin_start": "2013-10-20T16:00:00.000000000",
+      "origin_end": "2014-03-01T20:00:00.000000000"
+    },
+    "validation": {
+      "count": 529,
+      "origin_start": "2014-03-01T21:00:00.000000000",
+      "origin_end": "2014-03-23T21:00:00.000000000"
+    },
+    "test": {
+      "count": 1587,
+      "origin_start": "2014-03-23T22:00:00.000000000",
+      "origin_end": "2014-05-29T00:00:00.000000000"
+    }
+  },
+  "aligned_sha256": "c7d41fc4471e7d3fea6c587597d235785af8f7fa929c07070c8c501be0522daa",
+  "shuffled_sha256": "f3026cdaa752d297d6c7aaa8a71d1e2784e9883dbfaccd4f6423b075bac13a68",
+  "y_sha256": "5157e216f8c972c1b6691a368e1a6905909f00c4fe66f23e8243621231ef2fdc",
+  "origin_sha256": "d7f6039b4200b887ff71d2b9a9505371edd451334f3af088a5c0550f34b29df8"
+}
