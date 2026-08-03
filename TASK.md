@@ -55,6 +55,8 @@ Last updated: 2026-08-02
 
 ## Planned
 
+- `stage4c_missing_gate_v2_mmsp`: quality-aware hidden-residual gate implemented and smoke-tested; seed2021 full complete. Seeds2022/2023 require rerun on available GPU before formal three-seed Go decision.
+
 - Additional seeds for pred_len 1 and 4 only if explicitly approved.
 - No Fusion method change is planned; retain the negative result unless a separately approved injection redesign is proposed.
 
