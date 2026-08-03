@@ -13,10 +13,10 @@ Last updated: 2026-08-02
 
 ## Completed / reviewed
 
-- `stage4b_cora_mmsp_chronos2`: **completed locally; No-Go, Stage 4C not entered**
-  - Seed 2021 CoRA MAE 0.050525 versus Stage 4A 0.050587; the 0.12% point improvement is not stable
-  - Paired window bootstrap CI crosses zero, only 6/10 sites improve, and negative-transfer rate remains 0%; three-seed formal replication is missing
-  - Output: `results/stage4b/mmsp_24_24_cora_adapter/`
+- `stage4b_cora_mmsp_chronos2`: **completed locally; Go to Stage 4C after three-seed replication**
+  - Seed 2021 CoRA MAE 0.050525 versus Stage 4A 0.050587; seeds 2022/2023 improve by 3.07%/3.05% with bootstrap CIs excluding zero
+  - Across seeds 2021/2022/2023, mean CoRA-minus-Stage4A MAE is approximately -0.00106; negative-transfer rate remains 0%
+  - Output: `results/stage4b/mmsp_24_24_cora_adapter/`; three-seed summary is saved alongside full results
 
 - `stage4a_unica_mmsp_chronos2`: **completed locally; Go to Stage 4B**
   - Frozen full-modal FusionSF and Chronos-2; adapter trained on sites 10–19, selected on sites 20–21, tested on unseen sites 0–9

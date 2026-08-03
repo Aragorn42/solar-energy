@@ -56,7 +56,7 @@ def main():
     zero = predict(chronos, adapter, test[1], test[3], args.eval_batch_size, device)
     history, checkpoint = train_adapter(chronos, adapter, train[1:], val[1:], args, device, output)
     permutation = sattolo_derangement(len(test[0]), args.shuffle_seed); np.save(output / "shuffle_permutation.npy", permutation)
-    reference_root = STAGE4A if args.scope == "full" else STAGE4A_SMOKE
+    reference_root = (STAGE4A.parent / f"seed_{args.seed}") if args.scope == "full" else STAGE4A_SMOKE
     stage4a_aligned = np.load(reference_root / "fusion_aligned_predictions.npy")[:len(test[0])]
     baseline = np.load(reference_root / "chronos2_baseline_predictions.npy")[:len(test[0])]
     predictions = {
