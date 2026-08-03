@@ -13,6 +13,11 @@ Last updated: 2026-08-02
 
 ## Completed / reviewed
 
+- `stage4a_unica_mmsp_chronos2`: **completed locally; Go to Stage 4B**
+  - Frozen full-modal FusionSF and Chronos-2; adapter trained on sites 10–19, selected on sites 20–21, tested on unseen sites 0–9
+  - Seed 2021 full: aligned MAE 0.050587 versus baseline 0.066126 and shuffled 0.085302; aligned improves all 10 test sites
+  - Formal three-seed replication remains pending; output: `results/stage4a/mmsp_24_24_unica_tokens/`
+
 - `stage3b_fusion_mmsp_chronos2`: **completed locally; negative result**
   - Frozen full-modal checkpoint and Chronos-2; 25,450 shared windows on unseen MMSP sites 0–9
   - Fusion aligned MAE 0.071684 versus baseline 0.066126, TS aligned 0.070519, shuffled Fusion 0.071684
