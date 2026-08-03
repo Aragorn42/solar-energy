@@ -1,6 +1,6 @@
 import torch
 
-from stage4_adapter import UniCATokenAdapter, freeze_backbones, trainable_parameter_names
+from stage4_adapter import CoRACorrelationAdapter, UniCATokenAdapter, freeze_backbones, trainable_parameter_names
 
 
 def test_zero_alpha_is_exact_identity_and_tokens_are_not_pooled():
@@ -35,3 +35,11 @@ def test_token_order_can_affect_nonzero_adapter_output():
     fusion = torch.randn(2, 7, 8)
     # Window shuffling changes K/V content for a query window.
     assert not torch.equal(adapter(chronos, fusion), adapter(chronos, fusion.flip(0)))
+
+
+def test_cora_alpha_beta_zero_is_exact_identity():
+    adapter = CoRACorrelationAdapter(fusion_dim=8, chronos_dim=24, heads=4, global_hidden=6)
+    chronos = torch.randn(2, 5, 24)
+    fusion = torch.randn(2, 7, 8)
+    torch.testing.assert_close(adapter(chronos, fusion), chronos, rtol=0, atol=0)
+    assert adapter.alpha.item() == adapter.beta.item() == 0.0

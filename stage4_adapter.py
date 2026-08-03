@@ -31,6 +31,35 @@ class UniCATokenAdapter(nn.Module):
         return chronos_tokens + self.alpha * update
 
 
+class CoRACorrelationAdapter(nn.Module):
+    """One-layer dynamic/global correlation adapter with zero residual gates."""
+
+    def __init__(self, fusion_dim: int = 64, chronos_dim: int = 768,
+                 heads: int = 12, global_hidden: int = 192,
+                 dropout: float = 0.0) -> None:
+        super().__init__()
+        self.fusion_projection = nn.Linear(fusion_dim, chronos_dim)
+        self.query_norm = nn.LayerNorm(chronos_dim)
+        self.fusion_norm = nn.LayerNorm(chronos_dim)
+        self.dynamic_attention = nn.MultiheadAttention(
+            chronos_dim, heads, dropout=dropout, batch_first=True
+        )
+        self.global_mlp = nn.Sequential(
+            nn.Linear(chronos_dim, global_hidden), nn.GELU(),
+            nn.Linear(global_hidden, chronos_dim),
+        )
+        self.alpha = nn.Parameter(torch.zeros(()))
+        self.beta = nn.Parameter(torch.zeros(()))
+
+    def forward(self, chronos_tokens: torch.Tensor, fusion_tokens: torch.Tensor) -> torch.Tensor:
+        projected = self.fusion_norm(self.fusion_projection(fusion_tokens))
+        dynamic, _ = self.dynamic_attention(
+            self.query_norm(chronos_tokens), projected, projected, need_weights=False
+        )
+        global_condition = self.global_mlp(projected.mean(dim=1)).unsqueeze(1)
+        return chronos_tokens + self.alpha * dynamic + self.beta * global_condition
+
+
 def adapter_forward(
     chronos: nn.Module,
     adapter: UniCATokenAdapter,
