@@ -23,6 +23,10 @@ Last updated: 2026-08-02
   - Seed 2021 full: aligned MAE 0.050587 versus baseline 0.066126 and shuffled 0.085302; aligned improves all 10 test sites
   - Formal three-seed replication remains pending; output: `results/stage4a/mmsp_24_24_unica_tokens/`
 
+- `stage4c_missing_gate_mmsp`: **completed locally; negative gate result; redesign required**
+  - Full/50%/100% satellite-missing MAE: 0.048831/0.093932/0.138627; learned gate means 0.87414/0.87506/0.87435 and therefore did not materially adapt to missingness
+  - No further stage is authorized without a gate redesign; output: `results/stage4c/mmsp_24_24_missing_gate/`
+
 - `stage3b_fusion_mmsp_chronos2`: **completed locally; negative result**
   - Frozen full-modal checkpoint and Chronos-2; 25,450 shared windows on unseen MMSP sites 0–9
   - Fusion aligned MAE 0.071684 versus baseline 0.066126, TS aligned 0.070519, shuffled Fusion 0.071684
