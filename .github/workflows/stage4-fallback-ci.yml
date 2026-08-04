@@ -1,0 +1,29 @@
+name: stage4-fallback-ci
+
+on:
+  pull_request:
+    paths:
+      - "stage4_fallback_policy.py"
+      - "scripts/preflight_stage4c_external_confirmation.py"
+      - "tests/test_stage4_fallback_policy.py"
+      - "configs/stage4_fallback_policy.yaml"
+      - ".github/workflows/stage4-fallback-ci.yml"
+  push:
+    paths:
+      - "stage4_fallback_policy.py"
+      - "scripts/preflight_stage4c_external_confirmation.py"
+      - "tests/test_stage4_fallback_policy.py"
+      - "configs/stage4_fallback_policy.yaml"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install pytest pandas pyyaml
+      - run: python -m pytest -q tests/test_stage4_fallback_policy.py
+      - run: python -m py_compile stage4_fallback_policy.py scripts/preflight_stage4c_external_confirmation.py
+      - run: python -c "import yaml; yaml.safe_load(open('configs/stage4_fallback_policy.yaml'))"

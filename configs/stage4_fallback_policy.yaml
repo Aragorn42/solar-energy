@@ -1,0 +1,13 @@
+policy_version: 1
+status: baseline_candidate
+routing_feature: satellite_missing_ratio
+endpoint_tolerance: 1.0e-6
+routes:
+  complete: quality_gate
+  partial_missing: cora
+  fully_missing: static_mask_gate
+constraints:
+  labels_or_prediction_errors_used_for_routing: false
+  validate_ratio_is_finite_and_within_unit_interval: true
+  nwp_missingness_supported: false
+  checkpoints_must_be_supplied_by_deployment: true
