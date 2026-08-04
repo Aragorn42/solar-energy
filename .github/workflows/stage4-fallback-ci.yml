@@ -23,7 +23,6 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-          cache: pip
       - run: python -m pip install pytest pandas pyyaml
       - run: python -m pytest -q tests/test_stage4_fallback_policy.py
       - run: python -m py_compile stage4_fallback_policy.py scripts/preflight_stage4c_external_confirmation.py
